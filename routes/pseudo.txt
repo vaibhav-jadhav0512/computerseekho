@@ -1,0 +1,15 @@
+{
+    "_id":"109",
+    "email":"steve@gmail.com",
+    "Name":"steven",
+    "Address":"Mumbai",
+    "Gender":"Male",
+    "Photo":"1234",
+    "DOB":"june",
+    "Age":22,
+    "Qualification":"MERN",
+     "Mobile":1234564564,
+     "AlternateMobile":1234567890,
+     "IsActive":true,
+     "password":"vaibhav"
+}
