@@ -11,7 +11,7 @@
      "Mobile":1234564564,
      "AlternateMobile":1234567890,
      "IsActive":true,
-     "Password":"vaibhav"
+     "Password":"vaibhav123456"
 }
 
 
@@ -60,7 +60,23 @@
     "ImagePath" : "mypc",
     "Name" : "Vaibhav", 
     "Description" : "edac 2020 batch",
-    "isActive" : false,
+    "IsActive" : false,
     "NumberofImages" : 7,
-    "isAlbumCover" : false
+    "IsAlbumCover" : false
+}
+
+//course
+
+{
+    "_id" : 100,  
+    "Name" : "Vaibhav", 
+    "Description" : "edac 2020 batch",
+    "Duration" : 6,
+    "Fees" : 50000,
+    "Syllabus" : "Vaibhav",
+    "AgeGroupType" : "Teen",
+    "EnquiryCounter" : 5,
+    "IsActive" : false,
+    "CoverPhoto" : "nothing",
+    "VideoId" : "who cares"
 }

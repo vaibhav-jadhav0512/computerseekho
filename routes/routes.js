@@ -40,7 +40,7 @@ router.post('/',async(req,res)=>{
         Mobile : req.body.Mobile,
         AlternateMobile : req.body.AlternateMobile,
         IsActive : req.body.IsActive,
-        password : req.body.password
+        Password : req.body.Password
      });
      try{
      const savedStudent = await students.save();

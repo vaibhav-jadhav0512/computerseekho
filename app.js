@@ -16,16 +16,18 @@ const videoRoutes = require('./routes/VideoRoute');
 const albumRoutes = require('./routes/AlbumRoute');
 const staffRoutes = require('./routes/StaffRoute');
 const imageRoutes = require('./routes/ImageRoute');
+const courseRoutes = require('./routes/CourseRoute');
 
 
 
 
-//Students routes
+//Routes
 app.use('/students',studentRoutes);
 app.use('/video',videoRoutes);
 app.use('/album',albumRoutes);
 app.use('/staff',staffRoutes);
 app.use('/image',imageRoutes);
+app.use('/course',courseRoutes);
 
 
 //Authorisation routes
