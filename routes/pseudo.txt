@@ -1,6 +1,6 @@
 {
     "_id":"109",
-    "email":"steve@gmail.com",
+    "Email":"steve@gmail.com",
     "Name":"steven",
     "Address":"Mumbai",
     "Gender":"Male",
@@ -11,5 +11,56 @@
      "Mobile":1234564564,
      "AlternateMobile":1234567890,
      "IsActive":true,
-     "password":"vaibhav"
+     "Password":"vaibhav"
+}
+
+
+
+
+//Video data
+{
+    "_id":"1",
+    "Description":"First Video",
+    "URL":"www.google.com",
+    "isActive":true,
+    
+}
+
+//album
+
+{
+        "_id" : 1,
+        "Name" : "EDAC",
+        "Description" : "edac 2020 batch",
+        "isActive" : false,
+        "NumberofImages" : 7
+
+}
+
+
+
+//staff
+
+{
+    "_id" : 100,  
+    "Name" : "Vaibhav", 
+    "Mobile" : 789456123, 
+    "Email" : "abc@gmail.com", 
+    "UserName" : "abc@gmail.com", 
+    "Password" : "abc@123", 
+    "PhotoUrl" : "photo",
+    "Datte" : "2020-30-20"
+}
+
+
+//image
+
+{
+    "_id" : 100,  
+    "ImagePath" : "mypc",
+    "Name" : "Vaibhav", 
+    "Description" : "edac 2020 batch",
+    "isActive" : false,
+    "NumberofImages" : 7,
+    "isAlbumCover" : false
 }

@@ -9,7 +9,7 @@ const StudentSchema = mongoose.Schema({
     },
     Email: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     Name: {
@@ -95,7 +95,7 @@ const StudentSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
-    });
+    },{ timestamps: true });
 
 
 

@@ -12,9 +12,21 @@ app.use(bodyParser.json());
 
 //Import routes
 const studentRoutes = require('./routes/routes');
+const videoRoutes = require('./routes/VideoRoute');
+const albumRoutes = require('./routes/AlbumRoute');
+const staffRoutes = require('./routes/StaffRoute');
+const imageRoutes = require('./routes/ImageRoute');
+
+
+
 
 //Students routes
 app.use('/students',studentRoutes);
+app.use('/video',videoRoutes);
+app.use('/album',albumRoutes);
+app.use('/staff',staffRoutes);
+app.use('/image',imageRoutes);
+
 
 //Authorisation routes
 const authRouter = require('./routes/auth');
@@ -28,7 +40,7 @@ app.get('/',(req,res)=>{
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION,
-    { useUnifiedTopology: true },
+    { useNewUrlParser: true ,useUnifiedTopology: true }, 
     ()=>{console.log('Connection Successful');
     });
 
