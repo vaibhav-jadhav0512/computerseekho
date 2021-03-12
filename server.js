@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Import routes
-const studentRoutes = require('./routes/routes');
+const studentRoutes = require('./routes/StudentRoute');
 const videoRoutes = require('./routes/VideoRoute');
 const albumRoutes = require('./routes/AlbumRoute');
 const staffRoutes = require('./routes/StaffRoute');
@@ -31,7 +31,7 @@ app.use('/course',courseRoutes);
 
 
 //Authorisation routes
-const authRouter = require('./routes/auth');
+const authRouter = require('./Controller/auth');
 app.use('/api/Students',authRouter);
 
 

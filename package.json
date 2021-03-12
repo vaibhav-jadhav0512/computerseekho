@@ -2,11 +2,11 @@
   "name": "computerseeko-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon app.js"
   },
-  "author": "",
+  "author": "Vaibhav Jadhav",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^15.0.3",
