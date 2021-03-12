@@ -5,7 +5,7 @@ const {RegisterValidation,loginValidation} = require('../validation');
 const router = require('./routes');
 const jwt = require('jsonwebtoken');
 
-
+ 
 authRouter.post('/register',async (req,res)=>{
     //Validate data before we make a student
     const{error}=RegisterValidation(req.body);
