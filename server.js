@@ -37,7 +37,7 @@ app.use('/api/Students',authRouter);
 
 //Routes
 app.get('/',(req,res)=>{
-    res.send('We are on home');
+    res.send('Welcome to home page');
 });
 
 //Connect to DB
