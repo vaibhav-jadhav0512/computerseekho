@@ -18,9 +18,6 @@ const staffRoutes = require('./routes/StaffRoute');
 const imageRoutes = require('./routes/ImageRoute');
 const courseRoutes = require('./routes/CourseRoute');
 
-
-
-
 //Routes
 app.use('/students',studentRoutes);
 app.use('/video',videoRoutes);
@@ -35,20 +32,21 @@ const authRouter = require('./Controller/auth');
 app.use('/api/Students',authRouter);
 
 
-//Routes
-app.get('/',(req,res)=>{
-    res.send('Welcome to home page');
-});
-
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECTION,
-    { useNewUrlParser: true ,useUnifiedTopology: true }, 
-    ()=>{console.log('Connection Successful');
-    });
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log("DB CONNECTED..!!");
+}).catch(() => {
+    console.log("DB NOT CONNECTED..!!");
+})
 
-
+// Port Configuration for server
+const port = process.env.PORT || 3000;
 
 //Port listener
-app.listen(3000,() => {
-    console.log('Server running');
+app.listen(port, () => {
+    console.log(`app listening at http://localhost:${port}`);
 });
