@@ -19,7 +19,7 @@ const imageRoutes = require('./routes/ImageRoute');
 const courseRoutes = require('./routes/CourseRoute');
 
 //Routes
-app.use('/students',studentRoutes);
+app.use('/student',studentRoutes);
 app.use('/video',videoRoutes);
 app.use('/album',albumRoutes);
 app.use('/staff',staffRoutes);
