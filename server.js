@@ -11,12 +11,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Import routes
-const studentRoutes = require('./routes/StudentRoute');
-const videoRoutes = require('./routes/VideoRoute');
-const albumRoutes = require('./routes/AlbumRoute');
-const staffRoutes = require('./routes/StaffRoute');
-const imageRoutes = require('./routes/ImageRoute');
-const courseRoutes = require('./routes/CourseRoute');
+const studentRoutes = require('./routes/Student');
+const videoRoutes = require('./routes/Video');
+const albumRoutes = require('./routes/Album');
+const staffRoutes = require('./routes/Staff');
+const imageRoutes = require('./routes/Image');
+const courseRoutes = require('./routes/Course');
 
 //Routes
 app.use('/student',studentRoutes);

@@ -1,5 +1,5 @@
 const express = require('express');
-const Staff = require('../Controller/StaffController');
+const Staff = require('../Controller/Staff');
 const router = express.Router();
 
 router.get('/getstaffs',Staff.getAllStaffs);
