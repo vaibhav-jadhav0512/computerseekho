@@ -1,72 +1,153 @@
 const Course = require('../models/Course');
-
+const HttpStatus = require('http-status-codes');
+const Joi = require('@hapi/joi');
+const helpers = require('../helpers/helpers');
 
 
 module.exports = {
 
-    //Fetch Course data
-    async getAllCourses(req,res){
-        try{
-            const course = await Course.find();
-            res.json(course);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+    //Fetch Courses data
+    async GetAllCourses(req, res) {
+        await Course.find().exec((error, courses) => {
+            if (error) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: 'Error while getting all Courses..!!'
+                });
+            }
 
-    //Fetch specific Course
-    async getSpecificCourse(req, res){
-        try{
-            const course = await Course.findById(req.params.courseId);
-            res.json(course);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+            if (!courses) {
+                return res.status(HttpStatus.NOT_FOUND).json({
+                    error: 'Courses not found..!!'
+                });
+            }
 
-    async addCourse(req,res){
-        const course = new Course({
-           _id : req.body._id,
-           Name : req.body.Name,
-           Description : req.body.Description,
-           Duration : req.body.Duration,
-           Fees : req.body.Fees,
-           Syllabus : req.body.Syllabus,
-           AgeGroupType : req.body.AgeGroupType,
-           Datte : req.body.Datte,
-           EnquiryCounter : req.body.EnquiryCounter,
-           IsActive : req.body.IsActive,
-           CoverPhoto : req.body.CoverPhoto,
-           VideoId : req.body.VideoId
+            for (let i = 0; i < courses.length; i++) {
+                courses[i].createdAt = courses[i].updatedAt = courses[i].__v = undefined;
+            }
+
+            return res.status(HttpStatus.OK).json(courses);
         });
-        try{
-        const savedCourse = await course.save();
-        res.json(savedCourse);
-        }catch(err){
-           res.json({message:err});
-        }
-   },
-
-   //Delete course
-   async deleteCourse(req, res){
-    try{
-        const removedCourse = await Course.deleteOne({_id : req.params.courseId});
-        res.json(removedCourse);
-    }catch(err){
-        res.json({message:err});
-    }
     },
 
-    //Update course
-    async updateCourse(req, res){
-        try{
-            const updatedCourse = await Course.updateOne(
-                {_id : req.params.courseId},
-                {$set: {Name : req.body.Name}});
-            res.json(updatedCourse);
-        }catch(err){
-            res.json({message:err});
+    // Add Course into database
+    async CreateCourse(req, res) {
+        var schema = Joi.object().keys({
+            Name: Joi.string().min(2).max(32).required(),
+            Description: Joi.string().min(2).max(300).required(),
+            Duration: Joi.number().required(),
+            Fees: Joi.number().required(),
+            Syllabus: Joi.string().min(2).max(300).required(),
+            AgeGroupType: Joi.string().min(2).max(10).required(),
+            EnquiryCounter: Joi.number().required(),    
+            IsActive: true || false,
+            CoverPhoto: Joi.string().min(2).max(32).required(),
+            VideoId: Joi.number().required() 
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+        }
+
+        req.body.Name = helpers.firstUpper(req.body.Name)
+
+        var course = await Course.findOne({
+            Name: req.body.Name
+        });
+        if (course) {
+            return res.status(HttpStatus.CONFLICT).json({
+                error: 'Course already exist..!!'
+            });
+        }   
+
+        course = new Course(req.body);
+
+        await course.save((error, course) => {
+            if (error || !course) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: error.message,
+                    message: 'Unable to save Course..!!'
+                });
+            }
+
+            course.createdAt = course.updatedAt = course.__v = undefined;
+
+            return res.status(HttpStatus.OK).json({
+                message: 'Course Saved..!!',
+                course: course
+            });
+        });
+    },
+
+
+    // delete Course
+    async DeleteCourseById(req, res) {
+        if (req.course.Name) {
+            await Course.deleteOne({ _id: req.course._id }).exec((error, output) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while deleting Course..!!'
+                    });
+                }
+
+                if (output.deletedCount != 1) {
+                    return res.status(HttpStatus.BAD_REQUEST).json({
+                        error: 'Unable to delete Course..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Course deleted successfully..!!'
+                });
+            });
+        }
+    },
+
+    // Update Course
+    async UpdateCourseById(req, res) {
+
+        await Course.findByIdAndUpdate(
+            { _id: req.course._id },
+            {
+                $set: {
+                    Name: req.body.Name
+                }
+            },
+            { new: true },
+            (error, course) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while updating Course..!!'
+                    });
+                }
+
+                if (!course) {
+                    return res.status(HttpStatus.NOT_FOUND).json({
+                        error: 'Course not found..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Course updated successfully..!!',
+                    course: course
+                });
+            }
+        );
+    },
+
+    //Getting Course by "Id"
+    async CourseByID(req, res, next, Id) {
+        await Course.findById(Id).exec((error, course) => {
+            req.course = course;
+            next();
+        });
+    },
+
+    async getCourseById(req, res) {
+        if (req.course) {
+            return res.json(req.course);
         }
     }
+
 }
     

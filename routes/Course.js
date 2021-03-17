@@ -3,12 +3,27 @@ const Course = require('../Controller/Course');
 const router = express.Router();
 
 
-router.get('/getcourses',Course.getAllCourses);
-router.get('/:courseId',Course.getSpecificCourse);
-router.post('/addcourse',Course.addCourse);
-router.delete('/:courseId',Course.deleteCourse);
-router.patch('/:courseId',Course.updateCourse);
+// PARAMS
+router.param('courseid', Course.CourseByID);
+
+// ROUTES
+
+// Create
+router.post('/addcourse',Course.CreateCourse);
+ 
+// Read 
+router.get('/courses', Course.GetAllCourses);
+router.get('/course/:courseid', Course.getCourseById);
+
+// Update
+router.put('/updatecourse/:courseid', Course.UpdateCourseById);
+
+// Delete
+router.delete('/deletecourse/:courseid',Course.DeleteCourseById);
+
 
 module.exports = router;
+
+
 
 

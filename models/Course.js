@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
 const CourseSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        minlength: 10,
-        maxlength: 10,
-        trim: true
-    },
     Name: {
         type: String,
         required: true,
@@ -59,7 +53,7 @@ const CourseSchema = mongoose.Schema({
         type : Number,
         required : true
     },
-    Datte: {
+    Date: {
         type: Date,
         default: Date.now
     }
