@@ -19,6 +19,7 @@ const imageRoutes = require('./routes/Image');
 const courseRoutes = require('./routes/Course');
 const batchRoutes = require('./routes/Batch');
 const followUpRoutes = require('./routes/FollowUp');
+const paymentRoutes = require('./routes/Payment');
 
 //Routes
 app.use('/student',studentRoutes);
@@ -29,6 +30,7 @@ app.use('/image',imageRoutes);
 app.use('/course',courseRoutes);
 app.use('/batch',batchRoutes);
 app.use('/followup',followUpRoutes);
+app.use('/payment',paymentRoutes);
 
 
 //Authorisation routes

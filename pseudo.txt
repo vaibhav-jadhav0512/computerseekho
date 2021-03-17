@@ -94,3 +94,10 @@
     "FollowUpIsSuccess":true,
     "IsActive" : true
 }
+
+
+//payment
+{
+    "IsPaymentDone":true
+    "IsPaymentReceiptSent":true
+}
