@@ -88,3 +88,9 @@
         "isActive" : true
         
 }
+
+//followup
+{
+    "FollowUpIsSuccess":true,
+    "IsActive" : true
+}

@@ -1,5 +1,5 @@
 const express =require('express');
-const FollowUpCtrl = require('../controllers/FollowUp');
+const FollowUpCtrl = require('../Controller/FollowUp');
 const router = express.Router();
 
 

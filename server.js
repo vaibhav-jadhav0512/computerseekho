@@ -18,6 +18,7 @@ const staffRoutes = require('./routes/Staff');
 const imageRoutes = require('./routes/Image');
 const courseRoutes = require('./routes/Course');
 const batchRoutes = require('./routes/Batch');
+const followUpRoutes = require('./routes/FollowUp');
 
 //Routes
 app.use('/student',studentRoutes);
@@ -27,6 +28,7 @@ app.use('/staff',staffRoutes);
 app.use('/image',imageRoutes);
 app.use('/course',courseRoutes);
 app.use('/batch',batchRoutes);
+app.use('/followup',followUpRoutes);
 
 
 //Authorisation routes

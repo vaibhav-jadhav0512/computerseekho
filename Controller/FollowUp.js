@@ -2,7 +2,7 @@ const express = require('express');
 const FollowUp = require('../models/FollowUp');
 const router = express.Router();
 const Joi = require('@hapi/joi');
-const helpers = require('../Helpers/helpers');
+const helpers = require('../helpers/helpers');
 const HttpStatus = require('http-status-codes');
 
 module.exports = {
