@@ -1,16 +1,15 @@
 {
-    "Email":"steve@gmail.com",
+   "Email":"steve@gmail.com",
     "Name":"steven",
     "Address":"Mumbai",
     "Gender":"Male",
-    "Photo":"1234",
-    "DOB":"june",
+    "PhotoUrl":"1234",
     "Age":22,
     "Qualification":"MERN",
      "Mobile":1234564564,
      "AlternateMobile":1234567890,
      "IsActive":true,
-     "UserName":"Vaibhav",
+     "UserName":"Vaibhav1234",
      "Password":"vaibhav123456"
 }
 
@@ -19,7 +18,7 @@
 
 //Video data
 {
-    "_id":"1",
+    
     "Description":"First Video",
     "URL":"www.google.com",
     "isActive":true,

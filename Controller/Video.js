@@ -1,52 +1,144 @@
 const Video = require('../models/Video');
-
+const HttpStatus = require('http-status-codes');
+const Joi = require('@hapi/joi');
+const helpers = require('../helpers/helpers');
 
 
 module.exports = {
-    //Fetch Video data
-    async getAllVideos(req,res){
-        try{
-            const video = await Video.find();
-            res.json(video);   //Ask this
-        }catch(err){
-            res.json({message:err});
-        }
-    },
-
-    //Fetch specific video
-    async getSpecificVideo(req, res){
-        try{
-            const video = await Video.findById(req.params.videoId);
-            res.json(video);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
-
-    //Add video into database
-    async addVideo(req,res){
-        const video = new Video({
-            _id:req.body._id,
-            Description:req.body.Description,
-            URL:req.body.URL,
-            isActive:req.body.isActive,
-            Datte:req.body.Datte
-        });
-        try{
-            const savedVideo = await video.save();
-            res.json(savedVideo);
-            }catch(err){
-               res.json({message:err});
+    //Fetch Videos data
+    async GetAllVideos(req, res) {
+        await Video.find().exec((error, videos) => {
+            if (error) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: 'Error while getting all Videos..!!'
+                });
             }
+
+            if (!videos) {
+                return res.status(HttpStatus.NOT_FOUND).json({
+                    error: 'Videos not found..!!'
+                });
+            }
+
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].createdAt = videos[i].updatedAt = videos[i].__v = undefined;
+            }
+
+            return res.status(HttpStatus.OK).json(videos);
+        });
     },
 
-    //Delete video
-    async deleteVideo(req, res){
-        try{
-            const removedVideo = await Video.remove({_id : req.params.videoId});
-            res.json(removedVideo);
-        }catch(err){
-            res.json({message:err});
+    // Add Video into database
+    async CreateVideo(req, res) {
+        var schema = Joi.object().keys({
+            Description: Joi.string().min(2).max(320).required(),  
+            IsActive: Joi.boolean().required(),
+            Date: Joi.date().required(),
+            Url: Joi.string().min(2).max(32).required()    
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+        }
+
+        // req.body.Url = helpers.firstUpper(req.body.Url)
+
+        var video = await Video.findOne({
+            Url: req.body.Url
+        });
+        if (video) {
+            return res.status(HttpStatus.CONFLICT).json({
+                error: 'Video already exist..!!'
+            });
+        }   
+
+        video = new Video(req.body);
+
+        await video.save((error, video) => {
+            if (error || !video) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: error.message,
+                    message: 'Unable to save Video..!!'
+                });
+            }
+
+            video.createdAt = video.updatedAt = video.__v = undefined;
+
+            return res.status(HttpStatus.OK).json({
+                message: 'Video Saved..!!',
+                video: video
+            });
+        });
+    },
+
+
+    // delete Video
+    async DeleteVideoById(req, res) {
+        if (req.video.Name) {
+            await Video.deleteOne({ _id: req.video._id }).exec((error, output) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while deleting Video..!!'
+                    });
+                }
+
+                if (output.deletedCount != 1) {
+                    return res.status(HttpStatus.BAD_REQUEST).json({
+                        error: 'Unable to delete Video..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Video deleted successfully..!!'
+                });
+            });
+        }
+    },
+
+    // Update Video
+    async UpdateVideoById(req, res) {
+
+        await Video.findByIdAndUpdate(
+            { _id: req.video._id },
+            {
+                $set: {
+                    Name: req.body.Name
+                }
+            },
+            { new: true },
+            (error, video) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while updating Video..!!'
+                    });
+                }
+
+                if (!video) {
+                    return res.status(HttpStatus.NOT_FOUND).json({
+                        error: 'Video not found..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Video updated successfully..!!',
+                    video: video
+                });
+            }
+        );
+    },
+
+    //Getting Video by "Id"
+    async VideoByID(req, res, next, Id) {
+        await Video.findById(Id).exec((error, video) => {
+            req.video = video;
+            next();
+        });
+    },
+
+    async getVideoById(req, res) {
+        if (req.video) {
+            return res.json(req.video);
         }
     }
 }
