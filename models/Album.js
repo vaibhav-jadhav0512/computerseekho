@@ -2,12 +2,6 @@
 const mongoose = require('mongoose');
 
 const AlbumSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        minlength: 10,
-        maxlength: 10,
-        trim: true
-    },
     
     Name: {
         type: String,
@@ -26,7 +20,7 @@ const AlbumSchema = mongoose.Schema({
         type:Boolean,
         default: true
     },
-    Datte: {
+    Date: {
         type: Date,
         default: Date.now
     },

@@ -2,11 +2,24 @@ const express = require('express');
 const Album = require('../Controller/Album');
 const router = express.Router();
 
-router.get('/getalbums',Album.getAllAlbums);
-router.get('/:albumId',Album.getSpecificAlbum);
-router.post('/addalbum',Album.addAlbum);
-router.delete('/:albumId',Album.deleteAlbum);
-router.patch('/:albumId',Album.updateAlbum);
+// PARAMS
+router.param('albumid', Album.AlbumByID);
+
+// ROUTES
+
+// Create
+router.post('/addalbum',Album.CreateAlbum);
+ 
+// Read 
+router.get('/albums', Album.GetAllAlbums);
+router.get('/album/:albumid', Album.getAlbumById);
+
+// Update
+router.put('/updatealbum/:albumid', Album.UpdateAlbumById);
+
+// Delete
+router.delete('/deletealbum/:albumid',Album.DeleteAlbumById);
+
 
 module.exports = router;
 

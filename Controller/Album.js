@@ -1,66 +1,144 @@
 const Album = require('../models/Album');
-
-//hello  vaihav tejas
+const HttpStatus = require('http-status-codes');
+const Joi = require('@hapi/joi');
+const helpers = require('../helpers/helpers');
 
 module.exports = {
     
-    //Fetch Albums data
-    async getAllAlbums(req,res){
-        try{
-            const album = await Album.find();
-            res.json(album);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+    //Fetch albums data
+    async GetAllAlbums(req, res) {
+        await Album.find().exec((error, albums) => {
+            if (error) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: 'Error while getting all albums..!!'
+                });
+            }
 
-    //Fetch specific album
-    async getSpecificAlbum(req, res){
-        try{
-            const album = await Album.findById(req.params.albumId);
-            res.json(album);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+            if (!albums) {
+                return res.status(HttpStatus.NOT_FOUND).json({
+                    error: 'albums not found..!!'
+                });
+            }
 
-    //Add album into database
-    async addAlbum(req,res){
-        const album = new Album({
-           _id : req.body._id,
-           Name : req.body.Name,
-           Description : req.body.Description,
-           Datte : req.body.Datte,
-           NumberofImages : req.body.NumberofImages,
-           IsActive : req.body.IsActive
+            for (let i = 0; i < albums.length; i++) {
+                albums[i].createdAt = albums[i].updatedAt = albums[i].__v = undefined;
+            }
+
+            return res.status(HttpStatus.OK).json(albums);
         });
-        try{
-        const savedAlbum = await album.save();
-        res.json(savedAlbum);
-        }catch(err){
-           res.json({message:err});
-        }
-   },
-
-   //Delete album
-   async deleteAlbum(req, res){
-    try{
-        const removedAlbum = await Album.deleteOne({_id : req.params.albumId});
-        res.json(removedAlbum);
-    }catch(err){
-        res.json({message:err});
-    }
     },
 
-    //Update album
-    async updateAlbum(req, res){
-        try{
-            const updatedVideo = await Video.updateOne(
-                {_id : req.params.albumId},
-                {$set: {Name : req.body.Name}});
-            res.json(updatedVideo);
-        }catch(err){
-            res.json({message:err});
+    // Add Album into database
+    async CreateAlbum(req, res) {
+        var schema = Joi.object().keys({
+            Name: Joi.string().min(2).max(32).required(),
+            Description: Joi.string().min(2).max(300).required(),
+            NumberofImages: Joi.number().required(),
+            IsActive: true || false
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+        }
+
+        req.body.Name = helpers.firstUpper(req.body.Name)
+
+        var album = await Album.findOne({
+            Name: req.body.Name
+        });
+        if (album) {
+            return res.status(HttpStatus.CONFLICT).json({
+                error: 'Album already exist..!!'
+            });
+        }   
+
+        album = new Album(req.body);
+
+        await album.save((error, album) => {
+            if (error || !album) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: error.message,
+                    message: 'Unable to save Album..!!'
+                });
+            }
+
+            album.createdAt = album.updatedAt = album.__v = undefined;
+
+            return res.status(HttpStatus.OK).json({
+                message: 'Album Saved..!!',
+                album: album
+            });
+        });
+    },
+
+
+    // delete Album
+    async DeleteAlbumById(req, res) {
+        if (req.album.Name) {
+            await Album.deleteOne({ _id: req.album._id }).exec((error, output) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while deleting Album..!!'
+                    });
+                }
+
+                if (output.deletedCount != 1) {
+                    return res.status(HttpStatus.BAD_REQUEST).json({
+                        error: 'Unable to delete Album..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Album deleted successfully..!!'
+                });
+            });
+        }
+    },
+
+    // Update Album
+    async UpdateAlbumById(req, res) {
+
+        await Album.findByIdAndUpdate(
+            { _id: req.album._id },
+            {
+                $set: {
+                    Name: req.body.Name
+                }
+            },
+            { new: true },
+            (error, album) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while updating Album..!!'
+                    });
+                }
+
+                if (!album) {
+                    return res.status(HttpStatus.NOT_FOUND).json({
+                        error: 'Album not found..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Album updated successfully..!!',
+                    album: album
+                });
+            }
+        );
+    },
+
+    //Getting Album by "Id"
+    async AlbumByID(req, res, next, Id) {
+        await Album.findById(Id).exec((error, album) => {
+            req.album = album;
+            next();
+        });
+    },
+
+    async getAlbumById(req, res) {
+        if (req.album) {
+            return res.json(req.album);
         }
     }
 
