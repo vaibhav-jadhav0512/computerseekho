@@ -3,10 +3,25 @@ const Image = require('../Controller/Image');
 const router = express.Router();
 
 
-router.get('/getimages',Image.getAllImages);
-router.get('/:imageId',Image.getSpecificImage);
-router.post('/addimage',Image.addImage);
-router.delete('/:imageId',Image.deleteImage);
-router.patch('/:imageId',Image.updateImage);
+
+// PARAMS
+router.param('imageid', Image.ImageByID);
+
+// ROUTES
+
+// Create
+router.post('/addimage',Image.CreateImage);
+ 
+// Read 
+router.get('/images', Image.GetAllImages);
+router.get('/image/:imageid', Image.getImageById);
+
+// Update
+router.put('/updateimage/:imageid', Image.UpdateImageById);
+
+// Delete
+router.delete('/deleteimage/:imageid',Image.DeleteImageById);
+
 
 module.exports = router;
+

@@ -2,12 +2,6 @@
 const mongoose = require('mongoose');
 
 const ImageSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        minlength: 10,
-        maxlength: 10,
-        trim: true
-    },
     ImagePath: {
         type: String,
         required: true,

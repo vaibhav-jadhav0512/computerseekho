@@ -1,69 +1,149 @@
 const Image = require('../models/Image');
-
+const HttpStatus = require('http-status-codes');
+const Joi = require('@hapi/joi');
+const helpers = require('../helpers/helpers');
 
 module.exports = {
 
-    //Fetch Image data
-    async getAllImages(req,res){
-        try{
-            const image = await Image.find();
-            res.json(image);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+    //Fetch Images data
+    async GetAllImages(req, res) {
+        await Image.find().exec((error, images) => {
+            if (error) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: 'Error while getting all Images..!!'
+                });
+            }
 
-    //Fetch specific Image
-    async getSpecificImage (req, res){
-        try{
-            const image = await Image.findById(req.params.imageId);
-            res.json(image);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+            if (!images) {
+                return res.status(HttpStatus.NOT_FOUND).json({
+                    error: 'Images not found..!!'
+                });
+            }
 
-    //Add Image into database
-    async addImage(req,res){
-        const image = new Image({
-           _id : req.body._id,
-           Name : req.body.Name,
-           Description : req.body.Description,
-           Datte : req.body.Datte,
-           NumberofImages : req.body.NumberofImages,
-           IsActive : req.body.IsActive,
-           ImagePath : req.body.ImagePath,
-           IsAlbumCover : req.body.IsAlbumCover
+            for (let i = 0; i < images.length; i++) {
+                images[i].createdAt = images[i].updatedAt = images[i].__v = undefined;
+            }
+
+            return res.status(HttpStatus.OK).json(images);
         });
-        try{
-        const savedImage = await image.save();
-        res.json(savedImage);
-        }catch(err){
-           res.json({message:err});
-        }
-   },
-
-    //Delete image
-   async deleteImage(req, res){
-    try{
-        const removedImage = await Image.remove({_id : req.params.imageId});
-        res.json(removedImage);
-    }catch(err){
-        res.json({message:err});
-    }
     },
 
-    //Update image
-    async updateImage (req, res){
-        try{
-            const updatedImage = await Image.updateOne(
-                {_id : req.params.imageId},
-                {$set: {Name : req.body.Name}});
-            res.json(updatedImage);
-        }catch(err){
-            res.json({message:err});
+    // Add Image into database
+    async CreateImage(req, res) {
+        var schema = Joi.object().keys({
+            Name: Joi.string().min(2).max(32).required(),
+            Description: Joi.string().min(2).max(300).required(),
+            NumberofImages: Joi.number().required(),
+            IsActive: true || false,
+            ImagePath: Joi.string().min(2).max(32).required(), 
+            IsAlbumCover: false || true 
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+        }
+
+        req.body.Name = helpers.firstUpper(req.body.Name)
+
+        var image = await Image.findOne({
+            Name: req.body.Name
+        });
+        if (image) {
+            return res.status(HttpStatus.CONFLICT).json({
+                error: 'Image already exist..!!'
+            });
+        }   
+
+        image = new Image(req.body);
+
+        await image.save((error, image) => {
+            if (error || !image) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: error.message,
+                    message: 'Unable to save Image..!!'
+                });
+            }
+
+            image.createdAt = image.updatedAt = image.__v = undefined;
+
+            return res.status(HttpStatus.OK).json({
+                message: 'Image Saved..!!',
+                image: image
+            });
+        });
+    },
+
+
+    // delete Image
+    async DeleteImageById(req, res) {
+        if (req.image.Name) {
+            await Image.deleteOne({ _id: req.image._id }).exec((error, output) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while deleting Image..!!'
+                    });
+                }
+
+                if (output.deletedCount != 1) {
+                    return res.status(HttpStatus.BAD_REQUEST).json({
+                        error: 'Unable to delete Image..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Image deleted successfully..!!'
+                });
+            });
+        }
+    },
+
+    // Update Image
+    async UpdateImageById(req, res) {
+
+        await Image.findByIdAndUpdate(
+            { _id: req.image._id },
+            {
+                $set: {
+                    Name: req.body.Name
+                }
+            },
+            { new: true },
+            (error, image) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while updating Image..!!'
+                    });
+                }
+
+                if (!image) {
+                    return res.status(HttpStatus.NOT_FOUND).json({
+                        error: 'Image not found..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Image updated successfully..!!',
+                    image: image
+                });
+            }
+        );
+    },
+
+    //Getting Image by "Id"
+    async ImageByID(req, res, next, Id) {
+        await Image.findById(Id).exec((error, image) => {
+            req.image = image;
+            next();
+        });
+    },
+
+    async getImageById(req, res) {
+        if (req.image) {
+            return res.json(req.image);
         }
     }
+
 
 }
 
