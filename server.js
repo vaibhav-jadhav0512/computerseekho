@@ -17,6 +17,7 @@ const albumRoutes = require('./routes/Album');
 const staffRoutes = require('./routes/Staff');
 const imageRoutes = require('./routes/Image');
 const courseRoutes = require('./routes/Course');
+const batchRoutes = require('./routes/Batch');
 
 //Routes
 app.use('/student',studentRoutes);
@@ -25,6 +26,7 @@ app.use('/album',albumRoutes);
 app.use('/staff',staffRoutes);
 app.use('/image',imageRoutes);
 app.use('/course',courseRoutes);
+app.use('/batch',batchRoutes);
 
 
 //Authorisation routes

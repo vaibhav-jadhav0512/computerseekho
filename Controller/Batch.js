@@ -1,7 +1,7 @@
 const Batch = require('../models/Batch');
 const HttpStatus = require('http-status-codes');
 const Joi = require('@hapi/joi');
-const helpers = require('../Helpers/helpers');
+const helpers = require('../helpers/helpers');
 
 
 module.exports = {
