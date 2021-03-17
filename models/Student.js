@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 
 const StudentSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        minlength: 10,
-        maxlength: 10,
-        trim: true
-    },
+
     Email: {
         type: String,
         // required: true,
@@ -33,15 +28,13 @@ const StudentSchema = mongoose.Schema({
         maxlength: 6,
         trim: true
     },
-    Photo: {
+    PhotoUrl: {
         type: String,
         trim: true
     },
     DOB: {
-        type: String,
-        //required: true,
-        trim: true,
-        default:Date.now
+        type: Date,
+        default: Date.now
     },
     Age: {
         type: Number,
@@ -85,13 +78,19 @@ const StudentSchema = mongoose.Schema({
         default: true,
         //required: true
     },
+    UserName:{
+        type: String,
+        //required:true,
+        maxlength:255,
+        minlength:8
+    },
     Password:{
         type: String,
         //required:true,
         maxlength:255,
         minlength:8
     },
-    Datte: {
+    Date: {
         type: Date,
         default: Date.now
     }

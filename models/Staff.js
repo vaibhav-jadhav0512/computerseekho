@@ -2,12 +2,6 @@ const mongoose = require('mongoose');
 
 
 const StaffSchema = mongoose.Schema({
-    _id: {
-        type: Number,
-        minlength: 10,
-        maxlength: 10,
-        trim: true
-    },
     Email: {
         type: String,
         // required: true,
@@ -36,7 +30,7 @@ const StaffSchema = mongoose.Schema({
         trim: true
     },
     
-    Password:{
+    UserName:{
         type: String,
         //required:true,
         maxlength:255,
@@ -46,7 +40,7 @@ const StaffSchema = mongoose.Schema({
         type: String,
         trim: true
     },
-    Datte: {
+    Date: {
         type: Date,
         default: Date.now
     }

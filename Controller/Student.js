@@ -1,72 +1,155 @@
-const Students = require('../models/Students');
-
+const Student = require('../models/Student');
+const HttpStatus = require('http-status-codes');
+const Joi = require('@hapi/joi');
+const helpers = require('../helpers/helpers');
 
 module.exports = {
 
     //Fetch Students data
-    async getAllStudents(req,res){
-        try{
-            const students = await Students.find();
-            res.json(students);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+    async GetAllStudents(req, res) {
+        await Student.find().exec((error, students) => {
+            if (error) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: 'Error while getting all Students..!!'
+                });
+            }
 
-    //Fetch specific student
-    async getSpecificStudent(req, res){
-        try{
-            const student = await Students.findById(req.params.studentId);
-            res.json(student);
-        }catch(err){
-            res.json({message:err});
-        }
-    },
+            if (!students) {
+                return res.status(HttpStatus.NOT_FOUND).json({
+                    error: 'Students not found..!!'
+                });
+            }
 
-    //Add student into database
-    async addStudent(req,res){
-        const students = new Students({
-           _id : req.body._id,
-           email : req.body.email,
-           Name : req.body.Name,
-           Address : req.body.Address,
-           Gender : req.body.Gender,
-           Photo : req.body.Photo,
-           DOB : req.body.DOB,
-           Age : req.body.Age,
-           Qualification : req.body.Qualification,
-           Mobile : req.body.Mobile,
-           AlternateMobile : req.body.AlternateMobile,
-           IsActive : req.body.IsActive,
-           Password : req.body.Password
+            for (let i = 0; i < students.length; i++) {
+                students[i].createdAt = students[i].updatedAt = students[i].__v = undefined;
+            }
+
+            return res.status(HttpStatus.OK).json(students);
         });
-        try{
-        const savedStudent = await students.save();
-        res.json(savedStudent);
-        }catch(err){
-           res.json({message:err});
-        }
-   },
-
-   //Delete student
-   async deleteStudent(req, res){
-    try{
-        const removedStudent = await Students.deleteOne({_id : req.params.studentId});
-        res.json(removedStudent);
-    }catch(err){
-        res.json({message:err});
-    }
     },
-    
-    //Update student
-    async updateStudent(req, res){
-        try{
-            const updatedStudent = await Students.updateOne(
-                {_id : req.params.studentId},
-                {$set: {Name : req.body.Name}});
-            res.json(updatedStudent);
-        }catch(err){
-            res.json({message:err});
+
+    // Add Student into database
+    async CreateStudent(req, res) {
+        var schema = Joi.object().keys({
+            Name: Joi.string().min(2).max(32).required(),
+            Email: Joi.string().min(2).max(32).required(),
+            Address: Joi.string().min(2).max(300).required(),
+            Gender: Joi.string().min(4).max(6).required(), 
+            Mobile : Joi.number().required(),
+            DOB: Joi.date(),
+            Age: Joi.number().required(),
+            Qualification: Joi.string().min(2).max(20).required(),
+            Mobile: Joi.number().required(),
+            AlternateMobile: Joi.number().required(),
+            IsActive: Joi.boolean().required(),
+            UserName: Joi.string().min(2).max(32).required(),  
+            Password: Joi.string().min(2).max(32).required(),
+            PhotoUrl: Joi.string().min(2).max(32).required()    
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error && error.details) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+        }
+
+        req.body.Name = helpers.firstUpper(req.body.Name)
+
+        var student = await Student.findOne({
+            Name: req.body.Name
+        });
+        if (student) {
+            return res.status(HttpStatus.CONFLICT).json({
+                error: 'Student already exist..!!'
+            });
+        }   
+
+        student = new Student(req.body);
+
+        await student.save((error, student) => {
+            if (error || !student) {
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                    error: error.message,
+                    message: 'Unable to save Student..!!'
+                });
+            }
+
+            student.createdAt = student.updatedAt = student.__v = undefined;
+
+            return res.status(HttpStatus.OK).json({
+                message: 'Student Saved..!!',
+                student: student
+            });
+        });
+    },
+
+
+    // delete Student
+    async DeleteStudentById(req, res) {
+        if (req.student.Name) {
+            await Student.deleteOne({ _id: req.student._id }).exec((error, output) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while deleting Student..!!'
+                    });
+                }
+
+                if (output.deletedCount != 1) {
+                    return res.status(HttpStatus.BAD_REQUEST).json({
+                        error: 'Unable to delete Student..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Student deleted successfully..!!'
+                });
+            });
+        }
+    },
+
+    // Update Student
+    async UpdateStudentById(req, res) {
+
+        await Student.findByIdAndUpdate(
+            { _id: req.student._id },
+            {
+                $set: {
+                    Name: req.body.Name
+                }
+            },
+            { new: true },
+            (error, student) => {
+                if (error) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: 'Error while updating Student..!!'
+                    });
+                }
+
+                if (!student) {
+                    return res.status(HttpStatus.NOT_FOUND).json({
+                        error: 'Student not found..!!'
+                    });
+                }
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Student updated successfully..!!',
+                    student: student
+                });
+            }
+        );
+    },
+
+    //Getting Student by "Id"
+    async StudentByID(req, res, next, Id) {
+        await Student.findById(Id).exec((error, student) => {
+            req.student = student;
+            next();
+        });
+    },
+
+    async getStudentById(req, res) {
+        if (req.student) {
+            return res.json(req.student);
         }
     }
+
 }
