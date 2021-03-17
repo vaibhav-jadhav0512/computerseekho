@@ -1,5 +1,5 @@
 const express =require('express');
-const batchCtrl = require('../controllers/Batch');
+const batchCtrl = require('../Controller/Batch');
 const router = express.Router();
 
 

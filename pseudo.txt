@@ -79,3 +79,12 @@
     "CoverPhoto" : "nothing",
     "VideoId" : "who cares"
 }
+
+
+//batch
+{
+    
+        "Name" : "EDAC",
+        "isActive" : true
+        
+}
