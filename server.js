@@ -9,6 +9,8 @@ require('dotenv/config');
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
+
 
 //Import routes
 const studentRoutes = require('./routes/Student');
@@ -36,9 +38,10 @@ app.use('/paymentmaster',paymentMasterRoutes);
 
 
 //Authorisation routes
-const authRouter = require('./Controller/auth');
-app.use('/api/Students',authRouter);
-
+const authRouter = require('./routes/auth');
+app.use('/auth/student',authRouter);
+const postRoute = require('./routes/posts');
+app.use('/posts/student',postRoute);
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, {
