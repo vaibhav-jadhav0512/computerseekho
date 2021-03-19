@@ -1,23 +1,31 @@
-const authRouter = require('express').Router();
 const bcrypt = require('bcryptjs');
 const Students = require('../models/Student');
-const {RegisterValidation,loginValidation} = require('../Controller/validation');
-const router = require('../routes/Student');
+const {RegisterValidation,LoginValidation} = require('../Controller/validation');
+const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 
  
-authRouter.post('/register',async (req,res)=>{
+router.post('/register',async (req,res)=>{
     //Validate data before we make a student
     const{error}=RegisterValidation(req.body);
     if(error)
     return res.status(400).send(error.details[0].message);
     
     //check if the user is already in the database
+    const userNameExist= await Students.findOne({
+        UserName : req.body.UserName
+    });
+    if(userNameExist)
+    return res.status(400).send('UserName already exists');
+
+    //check if the email is already in the database
     const emailExist= await Students.findOne({
         Email : req.body.Email
     });
     if(emailExist)
     return res.status(400).send('Email already exists');
+
+
 
     //Hash the password
     const salt = await bcrypt.genSalt(10);     
@@ -26,20 +34,20 @@ authRouter.post('/register',async (req,res)=>{
 
     //Register new student
     const student = new Students({
-        _id: req.body._id,
         Name : req.body.Name,
         Email : req.body.Email,
+        UserName : req.body.UserName,
         Password : hashedPassword,
         Address : req.body.Address,
         Gender : req.body.Gender,
-        Photo : req.body.Photo,
+        PhotoUrl : req.body.PhotoUrl,
         DOB : req.body.DOB,
         Age : req.body.Age,
         Qualification : req.body.Qualification,
         Mobile : req.body.Mobile,
         AlternateMobile : req.body.AlternateMobile,
         IsActive : req.body.IsActive,
-        Datte : req.body.Datte
+        Date : req.body.Date
     });
     try{
         const savedStudent = await student.save();
@@ -52,19 +60,19 @@ authRouter.post('/register',async (req,res)=>{
 //Login
 router.post('/login',async (req,res)=>{
     //Validate data before we make a student
-    const{error}=loginValidation(req.body);
+    const{error}=LoginValidation(req.body);
     if(error)
     return res.status(400).send(error.details[0].message);
 
-    //check if the email exists in the database
+    //check if the UserName exists in the database
     const student= await Students.findOne({
-        Email : req.body.Email
+        UserName : req.body.UserName
     });
     if(!student)
-    return res.status(400).send('Email or password incorrect');
+    return res.status(400).send('UserName not found');
 
     //check if password is correct
-    const validPass = await bcrypt.compare(req.body.Password, user.Password);
+    const validPass = await bcrypt.compare(req.body.Password, student.Password);
     if(!validPass)
     return res.status(400).send('invalid password');
 
@@ -73,8 +81,8 @@ router.post('/login',async (req,res)=>{
     const token= jwt.sign({_id: student._id}, process.env.TOKEN_SECRET);
     res.header('auth-token',token).send(token); 
 
-
+    // res.send('Logged in!');
 });
 
 
-module.exports = authRouter;
+module.exports = router;

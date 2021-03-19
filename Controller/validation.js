@@ -1,32 +1,32 @@
-const joi = require('@hapi/joi');
+const Joi = require('@hapi/joi');
 
 
 const RegisterValidation = (data)=>{
     const schema={
-        Name : joi.string().min(8).required(),
-        Email : joi.string().min(6).required().email(),
-        Password : joi.string().min(8).required(),
-        _id: joi.string().min(3).required(),
-        Address : joi.string().min(10).required(),
-        Gender : joi.string().min(4).required(),
-        Photo : joi.string().min(10).required(),
-        DOB: joi.string().min(3).required(),
-        Age: joi.number().min(1).required(),
-        Qualification: joi.string().min(3).required(),
-        Mobile : joi.number().min(10).required(),
-        AlternateMobile : joi.number().min(10).required(),
-        IsActive : joi.boolean().required(),
-        Datte : joi.date()
+        Name : Joi.string().min(8).required(),
+        Email : Joi.string().min(6).required().email(),
+        UserName: Joi.string().min(8).required(),
+        Password : Joi.string().min(8).required(),
+        Address : Joi.string().min(10).required(),
+        Gender : Joi.string().min(4).required(),
+        PhotoUrl : Joi.string().min(10).required(),
+        DOB: Joi.date(),
+        Age: Joi.number().min(1).required(),
+        Qualification: Joi.string().min(3).required(),
+        Mobile : Joi.number().min(10).required(),
+        AlternateMobile : Joi.number().min(10).required(),
+        IsActive : Joi.boolean().required(),
+        Date : Joi.date()
     };
-    return joi.validate(data,schema);
+    return Joi.validate(data,schema);
 };
 
-const loginValidation = data =>{
+const LoginValidation = (data) =>{
     const schema={
-        Email : joi.string().min(6).required().email(),
-        Password : joi.string().min(6).required()
+        UserName : Joi.string().min(6).required(),
+        Password : Joi.string().min(6).required()
     };
-    return joi.validate(data,schema);
+    return Joi.validate(data,schema);
 }
-module.exports.loginValidation = loginValidation;
+module.exports.LoginValidation = LoginValidation;
 module.exports.RegisterValidation = RegisterValidation;

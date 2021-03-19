@@ -1,6 +1,6 @@
 const express =require('express');
 
-const paymentTypeMasterCtrl = require('../controllers/PaymentTypeMaster');
+const paymentTypeMasterCtrl = require('../Controller/PaymentTypeMaster');
 
 const router = express.Router();
 
