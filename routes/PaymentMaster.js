@@ -1,5 +1,5 @@
 const express =require('express');
-const PatmentMasterCtrl = require('../controllers/PaymentMaster');
+const PatmentMasterCtrl = require('../Controller/PaymentMaster');
 const router = express.Router();
 
 

@@ -102,6 +102,7 @@
     "IsPaymentReceiptSent":true
 }
 
+<<<<<<< HEAD
 
 
 //create and assign a token
@@ -120,3 +121,9 @@
         .json({ message: 'Login successful', student, token });
 
    }
+=======
+//paymentMaster
+{
+    "CourseFees":7777
+}
+>>>>>>> 56ebd28d02d97b78e49951f567c8134ecf6ba182
