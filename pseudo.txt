@@ -102,7 +102,28 @@
     "IsPaymentReceiptSent":true
 }
 
+<<<<<<< HEAD
+
+
+//create and assign a token
+    
+   if(student){
+    const token = jwt.sign({ data: student }, process.env.SECRETE, {
+        expiresIn: '5h'
+    });
+
+    res.cookie('auth', token);
+
+    res.profile = student;
+    
+    return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Login successful', student, token });
+
+   }
+=======
 //paymentMaster
 {
     "CourseFees":7777
 }
+>>>>>>> 56ebd28d02d97b78e49951f567c8134ecf6ba182
