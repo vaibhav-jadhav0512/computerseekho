@@ -7,7 +7,7 @@ module.exports = {
 
     //Fetch Students data
     async GetAllStudents(req, res) {
-        await Student.find().exec((error, students) => {
+        await Student.find().populate("batchId.batch","paymentMasterId.payments").exec((error, students) => {
             if (error) {
                 return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                     error: 'Error while getting all Students..!!'
@@ -44,7 +44,9 @@ module.exports = {
             IsActive: Joi.boolean().required(),
             UserName: Joi.string().min(2).max(32).required(),  
             Password: Joi.string().min(2).max(32).required(),
-            PhotoUrl: Joi.string().min(2).max(32).required()    
+            PhotoUrl: Joi.string().min(2).max(32).required(),
+            batchId: Joi.required(),
+            paymentMasterId: Joi.required()    
         });
 
         const { error, value } = schema.validate(req.body);
