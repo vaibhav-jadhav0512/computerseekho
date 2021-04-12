@@ -1,24 +1,26 @@
 
+const { string } = require('@hapi/joi');
 const mongoose = require('mongoose');
 
 const ImageSchema = mongoose.Schema({
-    ImagePath: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 255,
-        trim: true
-    },
+    
     Name: {
         type: String,
         required: true,
-        minlength: 3,
-        maxlength: 32,
         trim: true
     },
+
+    avatar:{
+        type: String
+    },
+
+    cloudinary_id:{
+        type:String
+    },
+
     Description: {
         type: String,
-        required: true,
+        // required: true,
         minlength: 3,
         maxlength: 200
     },
@@ -31,11 +33,6 @@ const ImageSchema = mongoose.Schema({
         default: true
     },
     
-    NumberofImages:{
-        type:Number,
-        default:null,
-        required:true
-    },
     },{ timestamps: true });
 
 

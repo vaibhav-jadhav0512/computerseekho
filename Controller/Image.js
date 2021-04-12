@@ -2,135 +2,45 @@ const Image = require('../models/Image');
 const HttpStatus = require('http-status-codes');
 const Joi = require('@hapi/joi');
 const helpers = require('../helpers/helpers');
+const cloudinary = require("../helpers/cloudinary");
+const { image } = require('../helpers/cloudinary');
+
+
 
 module.exports = {
 
-    //Fetch Images data
-    async GetAllImages(req, res) {
-        await Image.find().exec((error, images) => {
-            if (error) {
-                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                    error: 'Error while getting all Images..!!'
-                });
-            }
+    // Add image 
+    async addImage(req, res) {
+        try {
+            const result = await cloudinary.uploader.upload(req.file.path);
 
-            if (!images) {
-                return res.status(HttpStatus.NOT_FOUND).json({
-                    error: 'Images not found..!!'
-                });
-            }
+            //creating image collection in database
+            var image = new Image({
+                Name: req.body.Name,
+                avatar: result.secure_url,
+                cloudinary_id: result.public_id,
+            });
 
-            for (let i = 0; i < images.length; i++) {
-                images[i].createdAt = images[i].updatedAt = images[i].__v = undefined;
-            }
-
-            return res.status(HttpStatus.OK).json(images);
-        });
-    },
-
-    // Add Image into database
-    async CreateImage(req, res) {
-        var schema = Joi.object().keys({
-            Name: Joi.string().min(2).max(32).required(),
-            Description: Joi.string().min(2).max(300).required(),
-            NumberofImages: Joi.number().required(),
-            IsActive: true || false,
-            ImagePath: Joi.string().min(2).max(32).required(), 
-            IsAlbumCover: false || true 
-        });
-
-        const { error, value } = schema.validate(req.body);
-        if (error && error.details) {
-            return res.status(HttpStatus.BAD_REQUEST).json({ msg: error.details });
+            await image.save();
+            res.json(image);
         }
-
-        req.body.Name = helpers.firstUpper(req.body.Name)
-
-        var image = await Image.findOne({
-            Name: req.body.Name
-        });
-        if (image) {
-            return res.status(HttpStatus.CONFLICT).json({
-                error: 'Image already exist..!!'
-            });
-        }   
-
-        image = new Image(req.body);
-
-        await image.save((error, image) => {
-            if (error || !image) {
-                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                    error: error.message,
-                    message: 'Unable to save Image..!!'
-                });
-            }
-
-            image.createdAt = image.updatedAt = image.__v = undefined;
-
-            return res.status(HttpStatus.OK).json({
-                message: 'Image Saved..!!',
-                image: image
-            });
-        });
-    },
-
-
-    // delete Image
-    async DeleteImageById(req, res) {
-        if (req.image.Name) {
-            await Image.deleteOne({ _id: req.image._id }).exec((error, output) => {
-                if (error) {
-                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                        error: 'Error while deleting Image..!!'
-                    });
-                }
-
-                if (output.deletedCount != 1) {
-                    return res.status(HttpStatus.BAD_REQUEST).json({
-                        error: 'Unable to delete Image..!!'
-                    });
-                }
-
-                return res.status(HttpStatus.OK).json({
-                    message: 'Image deleted successfully..!!'
-                });
-            });
+        catch (err) {
+            console.log(err)
         }
     },
 
-    // Update Image
-    async UpdateImageById(req, res) {
+    //get image
+    async getallImages(req, res) {
+        try {
+            var image = await Image.find();
+            res.json(image);
+        } catch (err) {
+            console.log(err);
+        }
 
-        await Image.findByIdAndUpdate(
-            { _id: req.image._id },
-            {
-                $set: {
-                    Name: req.body.Name
-                }
-            },
-            { new: true },
-            (error, image) => {
-                if (error) {
-                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                        error: 'Error while updating Image..!!'
-                    });
-                }
-
-                if (!image) {
-                    return res.status(HttpStatus.NOT_FOUND).json({
-                        error: 'Image not found..!!'
-                    });
-                }
-
-                return res.status(HttpStatus.OK).json({
-                    message: 'Image updated successfully..!!',
-                    image: image
-                });
-            }
-        );
     },
 
-    //Getting Image by "Id"
+    //Getting batch by "Id"
     async ImageByID(req, res, next, Id) {
         await Image.findById(Id).exec((error, image) => {
             req.image = image;
@@ -142,9 +52,22 @@ module.exports = {
         if (req.image) {
             return res.json(req.image);
         }
+    },
+
+    //delete image
+
+    async DeleteImageById(req, res) {
+        try {
+            //find image by id
+            var image = await Image.findById(req.params.public_id);
+            //deleting image from cloudinary
+            await cloudinary.uploader.destroy(Image.cloudinary_id);
+            await image.remove();
+            res.json(image);
+        } catch (err) {
+            console.log(err);
+        }
     }
-
-
 }
 
 

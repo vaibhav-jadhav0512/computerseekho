@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 const StudentSchema = mongoose.Schema({
 
@@ -61,18 +62,18 @@ const StudentSchema = mongoose.Schema({
         maxlength: 10,
         trim: true
     },
-    // batchId: [{
-    //     batch: {
-    //         type: ObjectId,
-    //         ref: "Batch"
-    //     }
-    // }],
-    // paymentMasterId: [{
-    //     payments: {
-    //         type: ObjectId,
-    //         ref: "PaymentMaster"
-    //     }
-    // }],
+    batchId: [{
+        batch: {
+            type: ObjectId,
+            ref: "Batch"
+        }
+    }],
+    paymentMasterId: [{
+        payments: {
+            type: ObjectId,
+            ref: "PaymentMaster"
+        }
+    }],
     IsActive:{
         type: Boolean,
         default: true,

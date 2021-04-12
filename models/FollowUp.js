@@ -10,20 +10,26 @@ const FollowUpSchema = mongoose.Schema({
     //         ref: "Enquiry"
     //     }
     // }],
+    FollowUpMsg: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 200
+    },
 
-    // Id: [{
-    //     staff: {
-    //         type: ObjectId,
-    //         ref: "Staff"
-    //     }
-    // }],
+    EnquiryId: [{
+        enquiry: {
+            type: ObjectId,
+            ref: "Enquiry"
+        }
+    }],
 
-    // Id: [{
-    //     followupmessage: {
-    //         type: ObjectId,
-    //         ref: "Staff"
-    //     }
-    // }],
+    StaffId: [{
+        staff: {
+            type: ObjectId,
+            ref: "Staff"
+        }
+    }],
 
     FollowUpIsSuccess:{
         type:Boolean,

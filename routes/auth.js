@@ -77,9 +77,9 @@ router.post('/login',async (req,res)=>{
     return res.status(400).send('invalid password');
 
 
-    // //create and assign a token
-    // const token= jwt.sign({_id: student._id}, process.env.TOKEN_SECRET);
-    // res.header('auth-token',token).send(token); 
+    //create and assign a token
+    const token= jwt.sign({_id: student._id}, process.env.TOKEN_SECRET);
+    res.header('auth-token',token).send(token); 
 
     res.send('Logged in!');
 });
