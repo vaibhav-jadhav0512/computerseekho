@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const CourseSchema = mongoose.Schema(
   {
     Name: {
-<<<<<<< HEAD
+
         type: String,
         required: true,
         minlength: 3,
@@ -52,17 +52,7 @@ const CourseSchema = mongoose.Schema(
         minlength: 3,
         maxlength: 20
     },
-    VideoId:{
-        type : Number,
-        required : true
-=======
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 32,
-      trim: true,
->>>>>>> 52110f51186415f765f001b791bbec5ef712aef2
-    },
+  
     Description: {
       type: String,
       required: true,
