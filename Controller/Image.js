@@ -13,7 +13,7 @@ module.exports = {
     async addImage(req, res) {
         try {
             const result = await cloudinary.uploader.upload(req.file.path);
-
+            console.log(result);
             //creating image collection in database
             var image = new Image({
                 Name: req.body.Name,
