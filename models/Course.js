@@ -5,55 +5,57 @@ const CourseSchema = mongoose.Schema(
   {
     Name: {
 
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 32,
-        trim: true
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 32,
+      trim: true
     },
-    Description : {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 32
+    Description: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 32
     },
-    Duration : {
-        type : Number,
-        required: true,
+    Duration: {
+      type: Number,
+      required: true,
     },
-    Fees : {
-        type : Number,
-        required : true
+    Fees: {
+      type: Number,
+      required: true
     },
-    Syllabus :{
-        type: String,
-        required: true,
-        minlength: 2,
-        maxlength: 300
+    Syllabus: {
+      type: [
+        { 
+          topic: String,
+          topic_desc: String 
+        }
+      ]
     },
-    AgeGroupType:{
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 20
+    AgeGroupType: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 20
     },
-    EnquiryCounter:{
-        type : Number,
-        required : true
+    EnquiryCounter: {
+      type: Number,
+      required: true
     },
-    IsActive:{
-        type: Boolean,
-        default: true,
-        //required: true
+    IsActive: {
+      type: Boolean,
+      default: true,
+      //required: true
     },
-    CoverPhoto:{
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 20
+    CoverPhoto: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 20
     },
-    VideoId:{
-        type : Number,
+    VideoId: {
+      type: Number,
       required: true,
       minlength: 3,
       maxlength: 32,
@@ -63,8 +65,7 @@ const CourseSchema = mongoose.Schema(
     Description: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 32,
+      minlength: 2
     },
     Duration: {
       type: Number,
@@ -73,12 +74,6 @@ const CourseSchema = mongoose.Schema(
     Fees: {
       type: Number,
       required: true,
-    },
-    Syllabus: {
-      type: String,
-      required: true,
-      minlength: 10,
-      maxlength: 300,
     },
     AgeGroupType: {
       type: String,
