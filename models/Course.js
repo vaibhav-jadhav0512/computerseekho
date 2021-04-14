@@ -11,6 +11,7 @@ const CourseSchema = mongoose.Schema(
       maxlength: 32,
       trim: true
     },
+  
     Description: {
       type: String,
       required: true,

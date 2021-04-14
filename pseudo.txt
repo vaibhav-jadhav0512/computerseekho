@@ -44,15 +44,13 @@
 
 //staff
 
-{
-    "_id" : 100,  
-    "Name" : "Vaibhav", 
-    "Mobile" : 789456123, 
-    "Email" : "abc@gmail.com", 
-    "UserName" : "abc@gmail.com", 
-    "Password" : "abc@123", 
-    "PhotoUrl" : "photo",
-    "Datte" : "2020-30-20"
+{  
+    "Name" : "XYZ", 
+    "Mobile" : 256985396, 
+    "Email" : "xyz@gmail.com", 
+    "UserName" : "xyz@gmail.com",
+    "PhotoUrl" : "photo2"
+   
 }
 
 
