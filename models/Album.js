@@ -28,7 +28,7 @@ const AlbumSchema = mongoose.Schema({
         type:Number,
         default:null,
         required:true
-    },
+    }
     },{ timestamps: true });
 
 
