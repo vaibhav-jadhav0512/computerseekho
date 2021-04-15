@@ -40,9 +40,9 @@ module.exports = {
       Fees: Joi.number().required(),
       Syllabus: Joi.required(),
       AgeGroupType: Joi.string().min(2).max(10).required(),
-      EnquiryCounter: Joi.number().required(),
-      IsActive: true || false,
-      CoverPhoto: Joi.string().min(2).max(32).required(),
+      EnquiryCounter: Joi.number(),
+      IsActive: Joi.boolean(),
+      CoverPhoto: Joi.string().min(2).max(32)
       // VideoId: Joi.required(),
     });
 

@@ -10,7 +10,7 @@ const StudentSchema = mongoose.Schema({
     },
     Name: {
         type: String,
-        required: true,
+        //required: true,
         minlength: 3,
         maxlength: 32,
         trim: true
@@ -46,7 +46,7 @@ const StudentSchema = mongoose.Schema({
     Qualification: {
         type: String,
         //required: true,
-        minlength: 3,
+        minlength: 1,
         maxlength: 100,
         trim: true
     },
@@ -89,7 +89,7 @@ const StudentSchema = mongoose.Schema({
         type: String,
         //required:true,
         maxlength:255,
-        minlength:8
+        minlength:5
     },
     Date: {
         type: Date,
