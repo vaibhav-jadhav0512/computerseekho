@@ -7,7 +7,7 @@ const Joi = require('@hapi/joi');
 module.exports = {
 
     async getAllEnquiry(req, res) {
-        await Enquiry.find().exec((error, Enquiry) => {
+        await Enquiry.find().populate("CourseId.course","StaffId.staff").exec((error, Enquiry) => {
             if (error) {
                 return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                     error: 'Error while getting all enquiry..!!'
@@ -39,7 +39,11 @@ module.exports = {
             Date: Joi.date(),
             EnquiryProcessflag: Joi.boolean(),
             Mobile: Joi.number().required(),
-            AlternateMobile: Joi.number().required()
+            AlternateMobile: Joi.number().required(),
+            CourseId: Joi.required(),
+            StaffId: Joi.required(),
+            ClosureReason: Joi.string().min(2).max(320).required(),
+            EnquirerQuery: Joi.string().min(2).max(320).required(),
         });
 
         const { error, value } = schema.validate(req.body);

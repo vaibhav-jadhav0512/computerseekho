@@ -1,93 +1,88 @@
-const mongoose = require('mongoose');
-// const { ObjectId } = mongoose.Schema;
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
 
-const EnquirySchema = new mongoose.Schema({
-   
+const EnquirySchema = new mongoose.Schema(
+  {
     Email: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
 
     Name: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 40,
-        trim: true
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 40,
+      trim: true,
     },
 
     Address: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 100,
-        trim: true
-    },
-  
-    
-    Mobile :{
-        type: Number,
-        minlength: 1,
-        maxlength: 10,
-        trim: true
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 100,
+      trim: true,
     },
 
-    AlternateMobile:{
-        type: Number,
-        minlength: 1,
-        maxlength: 10,
-        trim: true
+    Mobile: {
+      type: Number,
+      minlength: 1,
+      maxlength: 10,
+      trim: true,
     },
 
-    // Id: [{
-    //     closureReasonId: {
-    //         type: ObjectId,
-    //         ref: "CloserReasonMaster"
-    //     }
-    // }],
+    AlternateMobile: {
+      type: Number,
+      minlength: 1,
+      maxlength: 10,
+      trim: true,
+    },
 
-
-    // Id: [{
-    //     closureReason: {
-    //         type: ObjectId,
-    //         ref: "CloserReasonMaster"
-    //     }
-    // }],
-
-
-    // Id: [{
-    //     enquirerQuerry: {
-    //         type: ObjectId,
-    //         ref: "CloserReasonMaster"
-    //     }
-    // }],
-
+    EnquirerQuery: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 200,
+      trim: true,
+    },
+    ClosureReason: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 200,
+      trim: true,
+    },
     Date: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now,
     },
 
-    // Id: [{
-    //     course: {
-    //         type: ObjectId,
-    //         ref: "Course"
-    //     }
-    // }],
+    CourseId: [
+      {
+        course: {
+          type: ObjectId,
+          ref: "Course",
+        },
+      },
+    ],
 
-    // Id: [{
-    //     staff: {
-    //         type: ObjectId,
-    //         ref: "Staff"
-    //     }
-    // }],
+    StaffId: [
+      {
+        staff: {
+          type: ObjectId,
+          ref: "Staff",
+        },
+      },
+    ],
 
-    EnquiryProcessflag:{
-        type: Boolean,
-        default: true,
-        // required: true
+    EnquiryProcessflag: {
+      type: Boolean,
+      default: true,
+      // required: true
     },
-    },
-     { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-     module.exports= mongoose.model('Enquiry',EnquirySchema);
+module.exports = mongoose.model("Enquiry", EnquirySchema);
