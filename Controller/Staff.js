@@ -34,7 +34,6 @@ module.exports = {
             Email: Joi.string().min(2).max(32).required(), 
             Mobile : Joi.number().required(),
             UserName: Joi.string().min(2).max(32).required(),  
-            Password: Joi.string().min(2).max(32).required(),
             PhotoUrl: Joi.string().min(2).max(32).required()    
         });
 

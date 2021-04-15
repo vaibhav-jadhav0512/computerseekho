@@ -1,7 +1,14 @@
 
 const mongoose = require('mongoose');
+const { string } = require('@hapi/joi');
 
 const VideoSchema = mongoose.Schema({
+
+    Name: {
+        type: String,
+        required: true,
+        trim: true
+    },
    
     Description: {
         type: String,
@@ -9,19 +16,20 @@ const VideoSchema = mongoose.Schema({
         minlength: 3,
         maxlength: 200
     },
-    Url:{
-        type:String,
-        required: true
+
+    avatar:{
+        type: String
     },
 
-    isActive:{
+    IsActive:{
         type:Boolean,
         default: true
     },
-    Date: {
-        type: Date,
-        default: Date.now
-    }
+
+    cloudinary_id:{
+        type:String
+    },
+
     },{ timestamps: true });
 
 

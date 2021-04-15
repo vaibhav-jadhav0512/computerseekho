@@ -35,15 +35,15 @@ module.exports = {
   async CreateCourse(req, res) {
     var schema = Joi.object().keys({
       Name: Joi.string().min(2).max(32).required(),
-      Description: Joi.string().min(2).max(300).required(),
+      Description: Joi.string().min(2).required(),
       Duration: Joi.number().required(),
       Fees: Joi.number().required(),
-      Syllabus: Joi.string().min(2).max(300).required(),
+      Syllabus: Joi.required(),
       AgeGroupType: Joi.string().min(2).max(10).required(),
       EnquiryCounter: Joi.number().required(),
       IsActive: true || false,
       CoverPhoto: Joi.string().min(2).max(32).required(),
-      VideoId: Joi.required(),
+      // VideoId: Joi.required(),
     });
 
     const { error, value } = schema.validate(req.body);

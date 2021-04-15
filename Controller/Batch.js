@@ -34,7 +34,11 @@ module.exports = {
   // Add batch into database
   async CreateBatch(req, res) {
     var schema = Joi.object().keys({
+      BatchId:Joi.number(),
       Name: Joi.string().min(2).max(32).required(),
+      StartDate: Joi.date().required(),
+      EndDate: Joi.date().required(),
+      FinalPresentationDate: Joi.date().required(),
       IsActive: Joi.required(),
       CourseId: Joi.required(),
     });
@@ -142,3 +146,15 @@ module.exports = {
     }
   },
 };
+
+function getNextSequenceValue(sequenceName){
+  var sequenceDocument = db.counters.findAndModify({
+     query:{_id: sequenceName },
+     update: {$inc:{sequence_value:1}},
+     new:true
+  });
+  return sequenceDocument.sequence_value;
+}
+
+
+
