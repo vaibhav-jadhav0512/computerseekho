@@ -41,12 +41,12 @@ module.exports = {
             Qualification: Joi.string().min(2).max(20).required(),
             Mobile: Joi.number().required(),
             AlternateMobile: Joi.number().required(),
-            IsActive: Joi.boolean().required(),
-            UserName: Joi.string().min(2).max(32).required(),  
-            Password: Joi.string().min(2).max(32).required(),
-            PhotoUrl: Joi.string().min(2).max(32).required(),
-            batchId: Joi.required(),
-            paymentMasterId: Joi.required()    
+            IsActive: Joi.boolean(),
+            UserName: Joi.string().min(2).max(32),  
+            Password: Joi.string().min(2).max(32),
+            PhotoUrl: Joi.string().min(2).max(32),
+            batchId: Joi.array(),
+            paymentMasterId: Joi.array()    
         });
 
         const { error, value } = schema.validate(req.body);

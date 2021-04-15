@@ -16,7 +16,7 @@ const CourseSchema = mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 32
+      //maxlength: 32
     },
     Duration: {
       type: Number,
@@ -40,7 +40,7 @@ const CourseSchema = mongoose.Schema(
     },
     EnquiryCounter: {
       type: Number,
-      required: true
+     // required: true
     },
     IsActive: {
       type: Boolean,
@@ -49,7 +49,7 @@ const CourseSchema = mongoose.Schema(
     },
     CoverPhoto: {
       type: String,
-      required: true,
+      //required: true,
       minlength: 3,
       maxlength: 20
     },

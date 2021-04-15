@@ -38,8 +38,8 @@ module.exports = {
       Name: Joi.string().min(2).max(32).required(),
       StartDate: Joi.date().required(),
       EndDate: Joi.date().required(),
-      FinalPresentationDate: Joi.date().required(),
-      IsActive: Joi.required(),
+      FinalPresentationDate: Joi.date(),
+      IsActive: Joi.boolean(),
       CourseId: Joi.required(),
     });
 
