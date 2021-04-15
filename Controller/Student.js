@@ -39,7 +39,6 @@ module.exports = {
             DOB: Joi.date(),
             Age: Joi.number().required(),
             Qualification: Joi.string().min(2).max(20).required(),
-            Mobile: Joi.number().required(),
             AlternateMobile: Joi.number(),
             IsActive: Joi.boolean(),
             // UserName: Joi.string().min(2).max(32),  

@@ -13,7 +13,7 @@ router.post('/addvideo',upload.single('video'),Video.addVideo);
 
 // Read 
 router.get('/video', Video.getallVideo);
-// router.get('/video/:videoId', Video.getVideoById);
+router.get('/video/:videoId', Video.getVideoById);
 
 // Update
 // router.put('/updatevideo/:videoid', Video.UpdateVideoById);
