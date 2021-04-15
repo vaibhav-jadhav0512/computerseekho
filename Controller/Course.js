@@ -34,16 +34,16 @@ module.exports = {
   // Add Course into database
   async CreateCourse(req, res) {
     var schema = Joi.object().keys({
-      Name: Joi.string().min(2).max(32).required(),
-      Description: Joi.string().min(2).required(),
+      Name: Joi.string().min(3).max(32).required(),
+      Description: Joi.string().min(3).max(500).required(),
       Duration: Joi.number().required(),
       Fees: Joi.number().required(),
-      Syllabus: Joi.required(),
+      Syllabus: Joi.array().required(),
       AgeGroupType: Joi.array().required(),
-      EnquiryCounter: Joi.number().required(),
-      IsActive: true || false,
-      CoverPhoto: Joi.string().min(2).max(32).required(),
-      // VideoId: Joi.required(),
+      EnquiryCounter: Joi.number(),
+      IsActive: Joi.boolean(),
+      CoverPhoto: Joi.string().min(2).max(50),
+      VideoId: Joi.object()
     });
 
     const { error, value } = schema.validate(req.body);

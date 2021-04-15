@@ -20,7 +20,6 @@ const ImageSchema = mongoose.Schema({
 
     Description: {
         type: String,
-        // required: true,
         minlength: 3,
         maxlength: 200
     },
@@ -30,7 +29,7 @@ const ImageSchema = mongoose.Schema({
     },
     IsAlbumCover:{
         type:Boolean,
-        default: true
+        default: false
     },
     
     },{ timestamps: true });

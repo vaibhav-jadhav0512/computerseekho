@@ -34,13 +34,12 @@ module.exports = {
   // Add batch into database
   async CreateBatch(req, res) {
     var schema = Joi.object().keys({
-      BatchId:Joi.number(),
-      Name: Joi.string().min(2).max(32).required(),
+      Name: Joi.string().min(1).max(32).required(),
       StartDate: Joi.date().required(),
       EndDate: Joi.date().required(),
       FinalPresentationDate: Joi.date(),
       IsActive: Joi.boolean(),
-      CourseId: Joi.required(),
+      CourseId: Joi.object().required()
     });
 
     const { error, value } = schema.validate(req.body);

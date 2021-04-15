@@ -40,7 +40,7 @@ module.exports = {
             EnquiryProcessflag: Joi.boolean(),
             Mobile: Joi.number().required(),
             AlternateMobile: Joi.number(),
-            CourseId: Joi.required(),
+            CourseId: Joi.object().required(),
             ClosureReasonId: Joi.object(),
             StaffId: Joi.object(),
             EnquirerQuery: Joi.string().min(3).max(320).required(),

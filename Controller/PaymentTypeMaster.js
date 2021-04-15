@@ -33,7 +33,7 @@ module.exports = {
     // Add FollowUp into database
     async CreatePaymentMaster(req, res) {
         var schema = Joi.object().keys({
-            CourseFees: Joi.number().required()
+            PaymentTypeDescription: Joi.string().required()
         });
 
         const { error, value } = schema.validate(req.body);

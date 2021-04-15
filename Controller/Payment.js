@@ -31,10 +31,17 @@ module.exports = {
     },
 
     // Add FollowUp into database
+
     async CreatePayment(req, res) {
         var schema = Joi.object().keys({
-            IsPaymentDone: true || false,
-            IsPaymentReceiptSent: true || false
+            IsPaymentDone: joi.boolean().required(),
+            Amount:joi.number().required(),
+            BatchId:joi.object(),
+            StudentId:joi.object(),
+            Date:joi.object(),
+            PaymentTypeId:joi.object().required(),
+            PaymentTransactionId:joi.string().required(),
+            IsPaymentReceiptSent: joi.boolean().required()
         });
 
         const { error, value } = schema.validate(req.body);

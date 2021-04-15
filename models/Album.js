@@ -18,16 +18,26 @@ const AlbumSchema = mongoose.Schema({
     },
     IsActive:{
         type:Boolean,
-        default: true
+        default: true,
+        required: true
     },
-    Date: {
+
+    StartDate: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        required:true
+    },
+    EndDate: {
+        type: Date,
+        default: Date.now,
+        required:true
+    },
+    IsDefault: {
+        type: Boolean,
+        default: false
     },
     NumberofImages:{
-        type:Number,
-        default:null,
-        required:true
+        type:Number
     }
     },{ timestamps: true });
 

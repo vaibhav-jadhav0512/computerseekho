@@ -36,11 +36,11 @@ module.exports = {
   // Add FollowUp into database
   async CreateFollowUp(req, res) {
     var schema = Joi.object().keys({
-      FollowUpIsSuccess: true || false,
-      IsActive: true || false,
-      FollowUpMsg: Joi.string().min(2).max(200).required(),
-      EnquiryId: Joi.required(),
-      StaffId: Joi.required(),
+      FollowUpIsSuccess: joi.boolean().required(),
+      IsActive: joi.boolean().required(),
+      FollowUpMsg: Joi.string().min(2).max(200),
+      EnquiryId: Joi.object().required(),
+      StaffId: Joi.object(),
     });
 
     const { error, value } = schema.validate(req.body);

@@ -30,11 +30,12 @@ module.exports = {
     // Add Staff into database
     async CreateStaff(req, res) {
         var schema = Joi.object().keys({
-            Name: Joi.string().min(2).max(32).required(),
-            Email: Joi.string().min(2).max(32).required(), 
-            Mobile : Joi.number().required(),
-            UserName: Joi.string().min(2).max(32).required(),  
-            PhotoUrl: Joi.string().min(2).max(32).required()    
+            Name: Joi.string().min(3).max(32).required(),
+            Email: Joi.string().required(), 
+            Mobile : Joi.number(),
+            UserName: Joi.string().min(4).max(32).required(),  
+            Password: Joi.string().min(8).max(32).required(),
+            PhotoUrl: Joi.string()    
         });
 
         const { error, value } = schema.validate(req.body);

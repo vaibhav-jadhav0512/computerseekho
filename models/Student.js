@@ -10,21 +10,21 @@ const StudentSchema = mongoose.Schema({
     },
     Name: {
         type: String,
-        //required: true,
+        required: true,
         minlength: 3,
         maxlength: 32,
         trim: true
     },
     Address: {
         type: String,
-        //required: true,
+        required: true,
         minlength: 3,
         maxlength: 100,
         trim: true
     },
     Gender: {
         type: String,
-        //required: true,
+        required: true,
         minlength: 4,
         maxlength: 6,
         trim: true
@@ -35,17 +35,16 @@ const StudentSchema = mongoose.Schema({
     },
     DOB: {
         type: Date,
-        default: Date.now
+        required: true
     },
     Age: {
         type: Number,
-        minlength: 2,
-        maxlength: 3,
+        required: true,
         trim: true
     },
     Qualification: {
         type: String,
-        //required: true,
+        required: true,
         minlength: 1,
         maxlength: 100,
         trim: true
@@ -54,6 +53,7 @@ const StudentSchema = mongoose.Schema({
         type: Number,
         minlength: 10,
         maxlength: 10,
+        required: true,
         trim: true
     },
     AlternateMobile:{
@@ -77,20 +77,24 @@ const StudentSchema = mongoose.Schema({
     IsActive:{
         type: Boolean,
         default: true,
-        //required: true
     },
-    UserName:{
-        type: String,
-        //required:true,
-        maxlength:255,
-        minlength:8
+    IsEnrolledByEnquiry:{
+        type: Boolean,
+        default: false,
+        required: true
     },
-    Password:{
-        type: String,
-        //required:true,
-        maxlength:255,
-        minlength:5
-    },
+    // UserName:{
+    //     type: String,
+    //     //required:true,
+    //     maxlength:255,
+    //     minlength:8
+    // },
+    // Password:{
+    //     type: String,
+    //     //required:true,
+    //     maxlength:255,
+    //     minlength:5
+    // },
     Date: {
         type: Date,
         default: Date.now

@@ -21,11 +21,19 @@ const StaffSchema = mongoose.Schema(
       minlength: 10,
       maxlength: 10,
       trim: true,
+
     },
     UserName: {
       type: String,
       required: true,
-      minlength: 3,
+      minlength: 4,
+      maxlength: 32,
+      trim: true,
+    },
+    Password: {
+      type: String,
+      required: true,
+      minlength: 8,
       maxlength: 32,
       trim: true,
     },

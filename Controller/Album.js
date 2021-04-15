@@ -31,10 +31,13 @@ module.exports = {
     // Add Album into database
     async CreateAlbum(req, res) {
         var schema = Joi.object().keys({
-            Name: Joi.string().min(2).max(32).required(),
-            Description: Joi.string().min(2).max(300).required(),
+            Name: Joi.string().min(3).max(32).required(),
+            Description: Joi.string().min(3).max(300).required(),
             NumberofImages: Joi.number().required(),
-            IsActive: true || false
+            StartDate: Joi.date().required(),
+            EndDate: Joi.date().required(),
+            IsDefault: Joi.boolean(),
+            IsActive: Joi.boolean.required()
         });
 
         const { error, value } = schema.validate(req.body);

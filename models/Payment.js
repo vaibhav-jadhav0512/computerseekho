@@ -5,18 +5,7 @@ const { ObjectId } = mongoose.Schema;
 const PaymentSchema = mongoose.Schema({
    
 
-    // paymenttypeId: {
-    //     type: ObjectId,
-    //     ref: "PaymentTypeMaster"
-    // },
-
-    // Id: [{
-    //     paymenttransactionId: {
-    //         type: ObjectId,
-    //         ref: "PaymentTypeMaster"
-    //     }
-    // }],
-
+   
     Date: {
         type: Date,
         default: Date.now
@@ -24,30 +13,52 @@ const PaymentSchema = mongoose.Schema({
 
     IsPaymentDone: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true
     },
 
     IsPaymentReceiptSent: {
         type: Boolean,
-        default: false
+        default: false,
+        required:false
     },
 
-    // Id: [{
-    //     paymentMasterId: {
-    //         type: ObjectId,
-    //         ref: "PaymentTypeMaster"
-    //     }
-    // }],
+    PaymentTypeId: [{
+        paymentmaster: {
+            type: ObjectId,
+            ref: "PaymentTypeMaster",
+            required:true
+        }
+    }],
 
-    // student: {
-    //     type: ObjectId,
-    //     ref: "student"
-    // },
+    StudentId: [{
+        student: {
+            type: ObjectId,
+            ref: "Student",
+            required:false
+        }
+    }],
 
-    // batch: {
-    //     type: ObjectId,
-    //     ref: "Batch"
-    // },
+    BatchId: [{
+        batch: {
+            type: ObjectId,
+            ref: "Batch",
+            required:false
+        }
+    }],
+
+    Amount: {
+            type: Number,
+            required:true
+        },
+        
+    PaymentTransactionId: {
+        type: String,
+        required:false
+    },
+   
+
+   
 
 }, { timestamps: true });
 

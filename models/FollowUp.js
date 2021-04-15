@@ -4,42 +4,43 @@ const { ObjectId } = mongoose.Schema;
 
 const FollowUpSchema = mongoose.Schema({
     
-    // Id: [{
-    //     enquiry: {
-    //         type: ObjectId,
-    //         ref: "Enquiry"
-    //     }
-    // }],
-    FollowUpMsg: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 200
-    },
+
 
     EnquiryId: [{
         enquiry: {
             type: ObjectId,
-            ref: "Enquiry"
-        }
+            ref: "Enquiry",
+            required: true
+        },
+        
     }],
 
     StaffId: [{
         staff: {
             type: ObjectId,
-            ref: "Staff"
+            ref: "Staff",
+            required: true
         }
     }],
 
     FollowUpIsSuccess:{
         type:Boolean,
-        default: true
+        default: false,
+        required:true
+    },
+    
+    FollowUpMsg: {
+        type: String,
+        required: false,
+        minlength: 3,
+        maxlength: 200
     },
 
    
     IsActive:{
         type:Boolean,
-        default: true
+        default: true,
+        required: true
     },
     },{ timestamps: true });
 

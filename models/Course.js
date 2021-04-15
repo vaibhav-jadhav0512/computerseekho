@@ -4,19 +4,18 @@ const { ObjectId } = mongoose.Schema;
 const CourseSchema = mongoose.Schema(
   {
     Name: {
-
       type: String,
       required: true,
       minlength: 3,
       maxlength: 32,
-      trim: true
+      trim: true,
     },
-  
+
     Description: {
       type: String,
       required: true,
       minlength: 3,
-      //maxlength: 32
+      maxlength: 500,
     },
     Duration: {
       type: Number,
@@ -24,15 +23,16 @@ const CourseSchema = mongoose.Schema(
     },
     Fees: {
       type: Number,
-      required: true
+      required: true,
     },
     Syllabus: {
       type: [
-        { 
+        {
           topic: String,
-          topic_desc: String 
-        }
-      ]
+          topic_desc: String,
+        },
+      ],
+      required:true
     },
     AgeGroupType: {
       type: Array,
@@ -40,7 +40,7 @@ const CourseSchema = mongoose.Schema(
     },
     EnquiryCounter: {
       type: Number,
-     // required: true
+      // required: true
     },
     IsActive: {
       type: Boolean,
@@ -51,37 +51,17 @@ const CourseSchema = mongoose.Schema(
       type: String,
       //required: true,
       minlength: 3,
-      maxlength: 20
+      maxlength: 50,
     },
-    Description: {
-      type: String,
-      required: true,
-      minlength: 2
-    },
-    Duration: {
-      type: Number,
-      required: true,
-    },
-    Fees: {
-      type: Number,
-      required: true
-    },
-    AgeGroupType: {
-      type: Object,
-      required: true
-    },
-    EnquiryCounter: {
-      type: Number,
-      required: true,
-    },
-    // VideoId: [
-    //   {
-    //     video: {
-    //       type: ObjectId,
-    //       ref: "Video",
-    //     }
-    //   }
-    // ],
+    VideoId: [
+      {
+        video: {
+          type: ObjectId,
+          ref: "Video",
+        },
+        required: false
+      },
+    ],
     Date: {
       type: Date,
       default: Date.now,

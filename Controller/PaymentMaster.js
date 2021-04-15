@@ -33,6 +33,8 @@ module.exports = {
     // Add FollowUp into database
     async CreatePaymentMaster(req, res) {
         var schema = Joi.object().keys({
+            StudentId: Joi.object(),
+            BatchId: Joi.object(),
             CourseFees: Joi.number().required()
         });
 

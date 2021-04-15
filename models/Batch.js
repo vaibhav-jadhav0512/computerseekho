@@ -3,34 +3,34 @@ const { ObjectId } = mongoose.Schema;
 
 const BatchSchema = mongoose.Schema(
   {
-    BatchId:{
-      type:Number,
-       default: 0
-    }
-    ,   
-         Name: {
+   
+      Name: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 32,
-      trim: true
+      minlength: 1,
+      maxlength: 32
     },
 
     StartDate: {
-      type: Date
+      type: Date,
+      required: true
     },
 
     EndDate: {
-      type: Date
+      type: Date,
+      required: true
     },
 
     CourseId: [
       {
         course: {
           type: ObjectId,
-          ref: "Course"
+          ref: "Course", 
+          required: true
         },
+      
       }
+
     ],
 
     FinalPresentationDate: {

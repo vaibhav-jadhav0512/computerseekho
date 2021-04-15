@@ -32,7 +32,7 @@ module.exports = {
     async CreateStudent(req, res) {
         var schema = Joi.object().keys({
             Name: Joi.string().min(2).max(32).required(),
-            Email: Joi.string().min(2).max(32).required(),
+            Email: Joi.string().required(),
             Address: Joi.string().min(2).max(300).required(),
             Gender: Joi.string().min(4).max(6).required(), 
             Mobile : Joi.number().required(),
@@ -40,13 +40,14 @@ module.exports = {
             Age: Joi.number().required(),
             Qualification: Joi.string().min(2).max(20).required(),
             Mobile: Joi.number().required(),
-            AlternateMobile: Joi.number().required(),
+            AlternateMobile: Joi.number(),
             IsActive: Joi.boolean(),
-            UserName: Joi.string().min(2).max(32),  
-            Password: Joi.string().min(2).max(32),
-            PhotoUrl: Joi.string().min(2).max(32),
-            batchId: Joi.array(),
-            paymentMasterId: Joi.array()    
+            // UserName: Joi.string().min(2).max(32),  
+            // Password: Joi.string().min(2).max(32),
+            PhotoUrl: Joi.string(),
+            batchId: Joi.object(),
+            IsEnrolledByEnquiry:Joi.object().required(),
+            paymentMasterId: Joi.object()    
         });
 
         const { error, value } = schema.validate(req.body);
