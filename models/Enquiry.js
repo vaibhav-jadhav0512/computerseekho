@@ -6,7 +6,7 @@ const EnquirySchema = new mongoose.Schema(
     Email: {
       type: String,
       required: true,
-      trim: true,
+      trim: true
     },
 
     Name: {
@@ -14,7 +14,7 @@ const EnquirySchema = new mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 40,
-      trim: true,
+      trim: true
     },
 
     Address: {
@@ -22,21 +22,21 @@ const EnquirySchema = new mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 100,
-      trim: true,
+      trim: true
     },
 
     Mobile: {
       type: Number,
-      minlength: 1,
+      minlength: 10,
       maxlength: 10,
-      trim: true,
+      trim: true
     },
 
     AlternateMobile: {
       type: Number,
-      minlength: 1,
+      minlength: 10,
       maxlength: 10,
-      trim: true,
+      trim: true
     },
 
     EnquirerQuery: {
@@ -44,15 +44,9 @@ const EnquirySchema = new mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 200,
-      trim: true,
+      trim: true
     },
-    ClosureReason: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 200,
-      trim: true,
-    },
+    
     Date: {
       type: Date,
       default: Date.now,
@@ -63,6 +57,17 @@ const EnquirySchema = new mongoose.Schema(
         course: {
           type: ObjectId,
           ref: "Course",
+          required: true
+        },
+      },
+    ],
+
+    ClosureReasonId: [
+      {
+        closureReason: {
+          type: ObjectId,
+          ref: "ClosureReason",
+          required: false
         },
       },
     ],
@@ -72,14 +77,16 @@ const EnquirySchema = new mongoose.Schema(
         staff: {
           type: ObjectId,
           ref: "Staff",
+          required: false
         },
+        
       },
+      
     ],
 
     EnquiryProcessflag: {
       type: Boolean,
-      default: true,
-      // required: true
+      default: true
     },
   },
   { timestamps: true }

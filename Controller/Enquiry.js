@@ -33,17 +33,17 @@ module.exports = {
     async CreateEnquiry(req, res) {
 
         var schema = Joi.object().keys({
-            Email: Joi.string().min(2).max(32).required(),
-            Name: Joi.string().min(2).max(32).required(),
-            Address: Joi.string().min(2).max(300).required(),
+            Email: Joi.string().min(3).max(32).required(),
+            Name: Joi.string().min(3).max(32).required(),
+            Address: Joi.string().min(3).max(300).required(),
             Date: Joi.date(),
             EnquiryProcessflag: Joi.boolean(),
             Mobile: Joi.number().required(),
-            AlternateMobile: Joi.number().required(),
+            AlternateMobile: Joi.number(),
             CourseId: Joi.required(),
-            StaffId: Joi.required(),
-            ClosureReason: Joi.string().min(2).max(320).required(),
-            EnquirerQuery: Joi.string().min(2).max(320).required(),
+            ClosureReasonId: Joi.object(),
+            StaffId: Joi.object(),
+            EnquirerQuery: Joi.string().min(3).max(320).required(),
         });
 
         const { error, value } = schema.validate(req.body);

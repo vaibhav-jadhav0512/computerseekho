@@ -24,6 +24,7 @@ const followUpRoutes = require('./routes/FollowUp');
 const paymentRoutes = require('./routes/Payment');
 const paymentMasterRoutes = require('./routes/PaymentMaster');
 const enquiryRoutes = require('./routes/Enquiry');
+const closureReasonRoutes = require('./routes/ClosureReason');
 
 
 //Routes
@@ -38,6 +39,8 @@ app.use('/followup',followUpRoutes);
 app.use('/payment',paymentRoutes);
 app.use('/paymentmaster',paymentMasterRoutes);
 app.use('/enquiry',enquiryRoutes);
+app.use('/closurereason',closureReasonRoutes);
+
 
 
 //Authorisation routes

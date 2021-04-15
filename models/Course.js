@@ -35,10 +35,8 @@ const CourseSchema = mongoose.Schema(
       ]
     },
     AgeGroupType: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 20
+      type: Array,
+      required: true
     },
     EnquiryCounter: {
       type: Number,
@@ -54,14 +52,6 @@ const CourseSchema = mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 20
-    },
-    VideoId: {
-      type: Number,
-      required: true,
-      minlength: 3,
-      maxlength: 32,
-      trim: true,
-
     },
     Description: {
       type: String,
@@ -74,7 +64,7 @@ const CourseSchema = mongoose.Schema(
     },
     Fees: {
       type: Number,
-      required: true,
+      required: true
     },
     AgeGroupType: {
       type: Object,
@@ -84,25 +74,14 @@ const CourseSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    IsActive: {
-      type: Boolean,
-      default: true,
-      //required: true
-    },
-    CoverPhoto: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 20,
-    },
-    VideoId: [
-      {
-        video: {
-          type: ObjectId,
-          ref: "Video",
-        },
-      },
-    ],
+    // VideoId: [
+    //   {
+    //     video: {
+    //       type: ObjectId,
+    //       ref: "Video",
+    //     }
+    //   }
+    // ],
     Date: {
       type: Date,
       default: Date.now,

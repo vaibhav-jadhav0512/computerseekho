@@ -39,7 +39,7 @@ module.exports = {
       Duration: Joi.number().required(),
       Fees: Joi.number().required(),
       Syllabus: Joi.required(),
-      AgeGroupType: Joi.object().required(),
+      AgeGroupType: Joi.array().required(),
       EnquiryCounter: Joi.number().required(),
       IsActive: true || false,
       CoverPhoto: Joi.string().min(2).max(32).required(),
