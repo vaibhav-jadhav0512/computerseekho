@@ -77,10 +77,8 @@ const CourseSchema = mongoose.Schema(
       required: true,
     },
     AgeGroupType: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 20,
+      type: Object,
+      required: true
     },
     EnquiryCounter: {
       type: Number,
