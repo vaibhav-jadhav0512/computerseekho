@@ -44,10 +44,14 @@ app.use('/closurereason',closureReasonRoutes);
 
 
 //Authorisation routes
-const authRouter = require('./routes/auth');
-app.use('/auth/student',authRouter);
-const postRoute = require('./routes/posts');
-app.use('/posts/student',postRoute);
+const studentauthRouter = require('./routes/auth');
+app.use('/auth/student',studentauthRouter);
+const studentpostRoute = require('./routes/auth');
+app.use('/posts/student',studentpostRoute);
+const staffauthRouter = require('./routes/auth');
+app.use('/auth/staff',staffauthRouter);
+const staffpostRoute = require('./routes/auth');
+app.use('/posts/staff',staffpostRoute);
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, {

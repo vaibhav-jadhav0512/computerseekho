@@ -35,7 +35,7 @@ const StudentSchema = mongoose.Schema({
     },
     DOB: {
         type: Date,
-        required: true
+        // required: true
     },
     Age: {
         type: Number,
@@ -83,18 +83,18 @@ const StudentSchema = mongoose.Schema({
         default: false,
         required: true
     },
-    // UserName:{
-    //     type: String,
-    //     //required:true,
-    //     maxlength:255,
-    //     minlength:8
-    // },
-    // Password:{
-    //     type: String,
-    //     //required:true,
-    //     maxlength:255,
-    //     minlength:5
-    // },
+    UserName:{
+        type: String,
+        //required:true,
+        maxlength:255,
+        minlength:8
+    },
+    Password:{
+        type: String,
+        //required:true,
+        maxlength:255,
+        minlength:5
+    },
     Date: {
         type: Date,
         default: Date.now
