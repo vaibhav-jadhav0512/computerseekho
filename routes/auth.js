@@ -81,22 +81,22 @@ router.post('/login',async (req,res)=>{
     const token= jwt.sign({_id: student._id}, process.env.TOKEN_SECRET);
     res.header('auth-token',token).send(token); 
 
-    res.send('Logged in!');
+    // res.send('Logged in!');
 
-    // const token = jwt.sign({ data: student }, process.env.SECRETE, {
-    //     expiresIn: '5h'
-    // });
+    const token = jwt.sign({ data: student }, process.env.SECRETE, {
+        expiresIn: '5h'
+    });
 
-    // res.cookie('auth', token);
-    //res.cookie('jwtoken', token, {
-    //     expires: new Date(Date.now()+ 25892000000),
-    //     httpOnly:true
-    // });
-    // res.profile = student;
+    res.cookie('auth', token);
+    res.cookie('jwtoken', token, {
+        expires: new Date(Date.now()+ 25892000000),
+        httpOnly:true
+    });
+    res.profile = student;
 
-    // res
-    // .status(HttpStatus.OK)
-    //     .json({ message: 'Login successful', student, token });
+    res
+    .status(HttpStatus.OK)
+        .json({ message: 'Login successful', student, token });
 });
 
 
