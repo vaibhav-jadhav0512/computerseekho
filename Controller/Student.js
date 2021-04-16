@@ -45,7 +45,7 @@ module.exports = {
             // Password: Joi.string().min(2).max(32),
             PhotoUrl: Joi.string(),
             batchId: Joi.object(),
-            IsEnrolledByEnquiry:Joi.object().required(),
+            IsEnrolledByEnquiry:Joi.boolean().required(),
             paymentMasterId: Joi.object()    
         });
 
