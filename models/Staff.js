@@ -34,7 +34,7 @@ const StaffSchema = mongoose.Schema(
       type: String,
       required: true,
       minlength: 8,
-      maxlength: 32,
+      maxlength: 320,
       trim: true,
     },
 

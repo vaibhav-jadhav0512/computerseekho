@@ -179,7 +179,7 @@ router.post('/stafflogin',async (req,res)=>{
         expires: new Date(Date.now()+ 25892000000),
         httpOnly:true
     });
-    res.profile = student;
+    res.profile = staff;
 
     res
     .status(HttpStatus.OK)
