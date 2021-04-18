@@ -62,54 +62,43 @@ module.exports = {
                     message: 'Unable to save enquiry..!!'
                 });
             }
+            let enquiryToSendEmail = enquiry;
 
-            async.waterfall([
-                function(enquiry) {
-                    let transporter = nodemailer.createTransport(smtpTransport({
-                        service: "gmail",
-                        host: "smtp.gmail.com",
-                        auth: {
-                            user: "thecakeshop369@gmail.com",
-                            pass: "vijayaher"
-                        }
-                   }));
-                   
-                    // var smtpTransport = nodemailer.createTransport(smtpTransport(
-
-                    //     {
-                        
-
-                    //     service: 'Gmail',
-                    //     host: "smtp.gmail.com",
-                    //     auth: {
-                    //         user: "thecakeshop369@gmail.com",
-                    //         pass: "vijayaher"
-                    //     }
-                    // }));
-                   // console.log(enquiry.Email);
-                    var mailOptions = {
-                        to: "tejaspatil76@gmail.com",
-                        from: 'thecakeshop369@gmail.com',
-                        subject: '',
-                        text: 'Hello'
-                    };
-                    transporter.sendMail(mailOptions, function(error, info) {
-                        // console.log('mail sent');
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log("Email sent: " + info.response);
-                        }
-                   
-                    });
-                }
-            ], function(err) {
-                if (err) {
-                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                        error: "Failed to send mail"
-                    });
-                }
-            });
+            if (enquiryToSendEmail) {
+                async.waterfall([
+                    function(enquiry) {
+                        let transporter = nodemailer.createTransport(smtpTransport({
+                            service: "gmail",
+                            host: "smtp.gmail.com",
+                            auth: {
+                                user: "computerseekhoproject@gmail.com",
+                                pass: "Computerseekho@88"
+                            }
+                       }));
+                       
+                        var mailOptions = {
+                            to: enquiryToSendEmail.Email,
+                            from: 'computerseekhoproject@gmail.com',
+                            subject: 'Computerseekho response to your Enquiry',
+                            html: "<h4>Hello " + enquiryToSendEmail.Name + "</h4><h1>Thank You..!!</h1><h3>Our team reach out to u asap..</h3><br><br><h5>Regards</h5><p>Team Computerseekho</p>"
+                        };
+                        transporter.sendMail(mailOptions, function(error, info) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log("Email sent: " + info.response);
+                            }
+                       
+                        });
+                    }
+                ], function(err) {
+                    if (err) {
+                        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                            error: "Failed to send mail"
+                        });
+                    }
+                });
+            }
 
             enquiry.createdAt = enquiry.updatedAt = enquiry.__v = undefined;
 
