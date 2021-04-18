@@ -2,7 +2,9 @@ const express = require('express');
 const Enquiry = require('../models/Enquiry');
 const HttpStatus = require('http-status-codes');
 const Joi = require('@hapi/joi');
-
+var async = require("async");
+var nodemailer = require("nodemailer");
+var smtpTransport = require("nodemailer-smtp-transport");
 
 module.exports = {
 
@@ -60,6 +62,54 @@ module.exports = {
                     message: 'Unable to save enquiry..!!'
                 });
             }
+
+            async.waterfall([
+                function(enquiry) {
+                    let transporter = nodemailer.createTransport(smtpTransport({
+                        service: "gmail",
+                        host: "smtp.gmail.com",
+                        auth: {
+                            user: "thecakeshop369@gmail.com",
+                            pass: "vijayaher"
+                        }
+                   }));
+                   
+                    // var smtpTransport = nodemailer.createTransport(smtpTransport(
+
+                    //     {
+                        
+
+                    //     service: 'Gmail',
+                    //     host: "smtp.gmail.com",
+                    //     auth: {
+                    //         user: "thecakeshop369@gmail.com",
+                    //         pass: "vijayaher"
+                    //     }
+                    // }));
+                   // console.log(enquiry.Email);
+                    var mailOptions = {
+                        to: "tejaspatil76@gmail.com",
+                        from: 'thecakeshop369@gmail.com',
+                        subject: '',
+                        text: 'Hello'
+                    };
+                    transporter.sendMail(mailOptions, function(error, info) {
+                        // console.log('mail sent');
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log("Email sent: " + info.response);
+                        }
+                   
+                    });
+                }
+            ], function(err) {
+                if (err) {
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: "Failed to send mail"
+                    });
+                }
+            });
 
             enquiry.createdAt = enquiry.updatedAt = enquiry.__v = undefined;
 
