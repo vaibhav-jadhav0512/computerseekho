@@ -2,6 +2,9 @@ const Student = require('../models/Student');
 const HttpStatus = require('http-status-codes');
 const Joi = require('@hapi/joi');
 const helpers = require('../helpers/helpers');
+var async = require("async");
+var nodemailer = require("nodemailer");
+var smtpTransport = require("nodemailer-smtp-transport");
 
 module.exports = {
 
@@ -72,6 +75,44 @@ module.exports = {
                 return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                     error: error.message,
                     message: 'Unable to save Student..!!'
+                });
+            }
+
+            let studentToSendEmail = student;
+
+            if (studentToSendEmail) {
+                async.waterfall([
+                    function(student) {
+                        let transporter = nodemailer.createTransport(smtpTransport({
+                            service: "gmail",
+                            host: "smtp.gmail.com",
+                            auth: {
+                                user: "computerseekhoproject@gmail.com",
+                                pass: "Computerseekho@88"
+                            }
+                       }));
+                       
+                        var mailOptions = {
+                            to: studentToSendEmail.Email,
+                            from: 'computerseekhoproject@gmail.com',
+                            subject: 'Student registration',
+                            html: "<h4>Hello " + studentToSendEmail.Name + "</h4><h1>Thank You for registration..!!</h1><h3>Our team reach out to u asap..</h3><br><br><h5>Regards</h5><p>Team Computerseekho</p>"
+                        };
+                        transporter.sendMail(mailOptions, function(error, info) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log("Email sent: " + info.response);
+                            }
+                       
+                        });
+                    }
+                ], function(err) {
+                    if (err) {
+                        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                            error: "Failed to send mail"
+                        });
+                    }
                 });
             }
 
